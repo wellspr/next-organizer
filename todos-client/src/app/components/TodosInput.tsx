@@ -27,7 +27,11 @@ const TodosInput = () => {
                         value={name}
                         onChange={e => setName(e.target.value)}
                     />
-                    <Button className="button form__group__button" label="Add Todo" />
+                    <Button 
+                        className="button form__group__button" 
+                        label="Add Todo" 
+                        disabled={name.length === 0}
+                    />
                 </div>
             </form>
     );

@@ -33,7 +33,7 @@ const TodosList = () => {
             {
                 todos && todos.map(todo => {
 
-                    if (todo.finished) return null;
+                    if (todo.finished || todo.deleted) return null;
                     
                     return (
                         <li
