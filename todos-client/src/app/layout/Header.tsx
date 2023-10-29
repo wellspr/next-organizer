@@ -21,7 +21,7 @@ const Header = () => {
                                 "button button__sync button__sync--synced" :
                                 "button button__sync"
                         }
-                        label={synchronized ? "Synced!" : "Synchronize"}
+                        label={synchronized ? "Synced!" : "Sync"}
                         type="button"
                         disabled={synchronized}
                         onClick={synchronizeTodos}
