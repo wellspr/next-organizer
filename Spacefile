@@ -2,15 +2,15 @@
 v: 0
 micros:
   - name: todos-backend
-    src: todos-backend
-    engine: nodejs16
-    path: api
     primary: false
+    src: todos-backend
+    path: api
+    engine: nodejs16
     dev: npm run dev
   - name: todos-client
     primary: true
-    path: todos-client
     src: todos-client
+    path: todos-client
     engine: next
     dev: npm run dev
 
