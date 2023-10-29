@@ -1,42 +1,33 @@
-import { Deta } from "deta";
-import { DetaType } from "deta/dist/types/types/basic";
-import { 
-    FetchResponse, 
-    DeleteResponse, 
-    PutResponse,
+import {
+    FetchResponse,
     PutManyResponse,
 } from "deta/dist/types/types/base/response";
 
-const detaKey = process.env.DETA_PROJECT_KEY;
+import { Todo, Todos } from "../types";
 
-const deta = Deta(detaKey);
+import axios, { AxiosResponse } from "axios";
 
-export const db = deta.Base("todos_db");
+const db = axios.create({
+    baseURL: "/api",
+});
 
-export type { 
-    DetaType as Data, 
-    FetchResponse, 
-    DeleteResponse, 
-    PutResponse,
-    PutManyResponse,
+export const api = {
+
+    deleteData: async (key: string) => {
+        const response = await db.delete("/delete", { data: { key } });
+        const { deletedKey } : { deletedKey: string } = response.data;
+        return { deletedKey };
+    },
+
+    postData: async (todos: Todo[]) => {
+        const response = await db.post("/save", { data: { todos } });
+        const data: PutManyResponse = response.data;
+        return data.processed.items as Todos;
+    },
+
+    getTodosFromServer: async () => {
+        const response: AxiosResponse = await db.get("/fetch");
+        const data: FetchResponse = response.data;
+        return data.items as Todos;
+    }
 };
-
-export const saveTodos = async (data: DetaType[]) => {
-    return await db.putMany(data);
-};
-
-export const deleteTodo = async (key: string) => {
-    return await db.delete(key);
-};
-
-export const fetchTodos = async () => {
-    return await db.fetch();
-};
-
-const todosDB = {
-    save: saveTodos,
-    delete: deleteTodo,
-    fetch: fetchTodos,
-};
-
-export { todosDB };

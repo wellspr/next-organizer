@@ -10,71 +10,8 @@ import {
 } from "react";
 
 import { store } from "../store";
-
-const getLocalData: () => Promise<(Todos | null)> = async () => {
-    const data: (Todos | null) = await store.getItem("todos");
-    return data;
-};
-
-const setLocalData = async (todos: Todos) => {
-    store.setItem("todos", todos, (err, value) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("Todos: ", value);
-        }
-    });
-};
-
-const getLocalUnsavedItems = async () => {
-    const unsavedItems: (string[] | null) = await store.getItem("unsaved_items");
-    return unsavedItems;
-};
-
-const setLocalUnsavedItems = async (unsavedItems: string[]) => {
-    store.setItem("unsaved_items", unsavedItems, (err, value) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("Unsaved Items: ", value);
-        }
-    });
-};
-
-
-import axios, { AxiosResponse } from "axios";
-import { FetchResponse, PutManyResponse } from "../db";
-const api = axios.create({
-    baseURL: "/api",
-});
-
-const deleteData = async (key: string) => {
-    const response = await api.delete("/delete", { data: { key } });
-    return { key: response.data.key };
-};
-
-const postData = async (todos: Todo[]) => {
-    const response = await api.post("/save", { data: { todos } });
-    const data: PutManyResponse = response.data;
-    return data;
-};
-
-const getTodosFromServer = async () => {
-    const response: AxiosResponse = await api.get("/fetch");
-    const data: FetchResponse = response.data;
-    return data.items as Todos;
-};
-
-export type Todo = {
-    key: string,
-    created: number,
-    updated: number | null,
-    name: string,
-    finished: boolean,
-    deleted: boolean,
-}
-
-export type Todos = Todo[];
+import { api } from "../db";
+import { Todo, Todos } from "../types";
 
 interface ContextProps {
     addTodo: (name: string) => void;
@@ -113,13 +50,13 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
     const [unsavedItems, setUnsavedItems] = useState<string[]>();
 
     useEffect(() => {
-        getLocalUnsavedItems()
+        store.getLocalUnsavedItems()
             .then(items => {
                 if (items && items.length > 0) {
 
                     setUnsavedItems(items);
 
-                    getLocalData()
+                    store.getLocalData()
                         .then(localData => {
                             if (localData) {
                                 setTodos(localData);
@@ -132,11 +69,11 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
 
                     setUnsavedItems([]);
 
-                    getTodosFromServer()
+                    api.getTodosFromServer()
                         .then(todos => {
                             if (todos && todos.length > 0) {
                                 setTodos(todos);
-                                setLocalData(todos);
+                                store.setLocalData(todos);
                             } else {
                                 setTodos([]);
                             }
@@ -148,13 +85,13 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
 
     useEffect(() => {
         if (todos) {
-            setLocalData(todos);
+            store.setLocalData(todos);
         }
     }, [todos]);
 
     useEffect(() => {
         if (unsavedItems) {
-            setLocalUnsavedItems(unsavedItems);
+            store.setLocalUnsavedItems(unsavedItems);
         }
     }, [unsavedItems]);
 
@@ -224,9 +161,9 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
 
     const deleteTodoPermanently = useCallback((key: string) => {
         if (unsavedItems) {
-            deleteData(key)
+            api.deleteData(key)
                 .then(r => {
-                    console.log(r.key);
+                    console.log(r.deletedKey);
                 })
                 .catch(err => console.log("ERRO: ", err))
                 .finally(() => {
@@ -260,12 +197,11 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
                     }
                 });
 
-                postData(itemsToSync)
-                    .then(r => {
-                        const processedItems = r.processed.items;
-                        const processedKeys = (processedItems as Todos).map(item => item.key);
+                api.postData(itemsToSync)
+                    .then(syncedTodos => {
+                        const syncedKeys = syncedTodos.map(item => item.key);
                         setUnsavedItems(unsavedItems.filter(key => {
-                            return !processedKeys.includes(key);
+                            return !syncedKeys.includes(key);
                         }));
 
                     });
