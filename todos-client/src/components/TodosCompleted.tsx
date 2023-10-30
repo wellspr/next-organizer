@@ -1,16 +1,22 @@
 "use client";
 
-import { useTodo } from "../context";
-import { Button } from ".";
+import { useTodos } from "@/context";
+import { Button, Loading } from ".";
 
 const TodosCompleted = () => {
 
-    const { todos, updateTodo, deleteTodo } = useTodo();
+    const { todos, updateTodo, deleteTodo } = useTodos();
+
+    if (!todos) {
+        return <div className="list">
+            <Loading />
+        </div>
+    }
 
     return (
         <div className="list-completed">
             {
-                todos && todos.map(todo => {
+                todos.map(todo => {
 
                     if (todo.deleted) return null;
 

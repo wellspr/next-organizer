@@ -3,7 +3,7 @@ import {
     PutManyResponse,
 } from "deta/dist/types/types/base/response";
 
-import { Todo, Todos } from "../types";
+import { Todo, Todos } from "@/types";
 
 import axios, { AxiosResponse } from "axios";
 
@@ -14,9 +14,9 @@ const db = axios.create({
 export const api = {
 
     deleteData: async (key: string) => {
+        console.log("KEY: ", key);
         const response = await db.delete("/delete", { data: { key } });
-        const { deletedKey } : { deletedKey: string } = response.data;
-        return { deletedKey };
+        return { key: response.data.key };
     },
 
     postData: async (todos: Todo[]) => {

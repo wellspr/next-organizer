@@ -17,8 +17,8 @@ app.post("/save", async (req, res) => {
     res.json(response);
 });
 
-app.delete("/delete/:key", async (req, res) => {
-    const { key } = req.params;
+app.delete("/delete", async (req, res) => {
+    const { key } = req.body;
     await todosDB.delete(key);
     res.json({ key });
 });

@@ -1,5 +1,5 @@
 import localforage from "localforage";
-import { Todos } from "../types";
+import { Todos } from "@/types";
 
 export const localDB = localforage.createInstance({
     name: "localDB",

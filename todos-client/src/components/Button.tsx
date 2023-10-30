@@ -6,7 +6,7 @@ interface ButtonProps {
     onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
-export const Button: React.FC<ButtonProps> = ({ className, type, disabled, label, onClick }) => {
+const Button: React.FC<ButtonProps> = ({ className, type, disabled, label, onClick }) => {
 
     return (
         <button className={className} type={type} disabled={disabled} onClick={onClick}>
@@ -14,3 +14,5 @@ export const Button: React.FC<ButtonProps> = ({ className, type, disabled, label
         </button>
     );
 };
+
+export default Button;

@@ -9,9 +9,9 @@ import {
     useState
 } from "react";
 
-import { store } from "../store";
-import { api } from "../db";
-import { Todo, Todos } from "../types";
+import { store } from "@/store";
+import { api } from "@/db";
+import { Todo, Todos } from "@/types";
 
 interface ContextProps {
     addTodo: (name: string) => void;
@@ -39,9 +39,9 @@ const defaultValue: ContextProps = {
 
 const Context = createContext<ContextProps>(defaultValue);
 
-interface ProviderProps { children: React.ReactNode }
+interface TodosProviderProps { children: React.ReactNode }
 
-const Provider: React.FC<ProviderProps> = ({ children }) => {
+const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
     const updateRef = useRef<HTMLInputElement>(null);
@@ -85,13 +85,15 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
 
     useEffect(() => {
         if (todos) {
-            store.setLocalData(todos);
+            store.setLocalData(todos)
+                .then(todos => console.log("TODOS: ", todos));
         }
     }, [todos]);
 
     useEffect(() => {
         if (unsavedItems) {
-            store.setLocalUnsavedItems(unsavedItems);
+            store.setLocalUnsavedItems(unsavedItems)
+                .then(unsavedItems => console.log("UNSAVED: ", unsavedItems));
         }
     }, [unsavedItems]);
 
@@ -156,6 +158,16 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
                 }
                 return todo;
             }));
+
+            if (unsavedItems) {
+                const unsavedItemsSet = new Set([...unsavedItems, key]);
+                const updatedItemsList: string[] = [];
+                unsavedItemsSet.forEach(val => {
+                    updatedItemsList.push(val);
+                });
+
+                setUnsavedItems(updatedItemsList);
+            }
         }
     }, [todos]);
 
@@ -163,7 +175,7 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
         if (unsavedItems) {
             api.deleteData(key)
                 .then(r => {
-                    console.log(r.deletedKey);
+                    console.log(r.key);
                 })
                 .catch(err => console.log("ERRO: ", err))
                 .finally(() => {
@@ -228,6 +240,6 @@ const Provider: React.FC<ProviderProps> = ({ children }) => {
     </Context.Provider>
 };
 
-export default Provider;
+export default TodosProvider;
 
-export const useTodo = () => useContext(Context);
+export const useTodos = () => useContext(Context);

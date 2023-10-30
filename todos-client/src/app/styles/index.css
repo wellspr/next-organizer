@@ -55,6 +55,7 @@ body {
 
 .todos__menu__button {
   padding: 1rem 2rem;
+  cursor: pointer;
 }
 .todos__menu__button--active {
   border: none;
@@ -64,6 +65,7 @@ body {
   border-bottom-left-radius: 0;
   color: whitesmoke;
   font-weight: bold;
+  cursor: default;
 }
 .todos #current,
 .todos #completed,

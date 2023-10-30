@@ -1,7 +1,8 @@
 "use client";
-import { Todo, useTodo } from "../context";
-import { Button } from ".";
+
 import { useState } from "react";
+import { Todo, useTodos } from "@/context";
+import { Button, Loading } from ".";
 
 const TodosList = () => {
 
@@ -11,7 +12,7 @@ const TodosList = () => {
         deleteTodo,
         inputRef,
         updateRef, 
-    } = useTodo();
+    } = useTodos();
 
     const [updated, setUpdated] = useState<string>("");
     const [selectedForUpdate, setSelectedForUpdate] = useState<string | null>(null);
@@ -28,10 +29,16 @@ const TodosList = () => {
         inputRef?.current?.focus();
     };
 
+    if (!todos) {
+        return <div className="list">
+            <Loading />
+        </div>
+    }
+
     return (
         <div className="list">
             {
-                todos && todos.map(todo => {
+                todos.map(todo => {
 
                     if (todo.finished || todo.deleted) return null;
                     

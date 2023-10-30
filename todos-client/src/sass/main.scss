@@ -65,6 +65,7 @@ body {
     &__menu {
         &__button {
             padding: 1rem 2rem;
+            cursor: pointer;
             
             &--active {
                 border: none;
@@ -74,6 +75,7 @@ body {
                 border-bottom-left-radius: 0;
                 color: whitesmoke;
                 font-weight: bold;
+                cursor: default;
             }
         }
     }
