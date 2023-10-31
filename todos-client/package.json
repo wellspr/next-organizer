@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "sass": "sass ./src/sass/main.scss ./src/app/styles/index.css --watch"
+    "sass": "sass ./src/sass/main.scss ./src/styles/index.css --watch"
   },
   "dependencies": {
     "axios": "^1.5.1",

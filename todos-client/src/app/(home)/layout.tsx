@@ -1,4 +1,4 @@
-import './styles/index.css';
+import '@/styles/index.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import TodosProvider from '@/context';
@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout(props: {
     todos: React.ReactNode,
     header: React.ReactNode,
+    main: React.ReactNode,
     footer: React.ReactNode,
 }) {
     return (
@@ -21,9 +22,7 @@ export default function RootLayout(props: {
                 <div className="container">
                     <TodosProvider>
                         { props.header }
-                        <main className="main-container">
-                            {props.todos}
-                        </main>
+                        { props.main }
                         { props.footer }
                     </TodosProvider>
                 </div>
