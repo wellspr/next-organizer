@@ -14,6 +14,7 @@ import { api } from "@/db";
 import { Todo, Todos } from "@/types";
 
 interface ContextProps {
+    todos: Todos | undefined;
     addTodo: (name: string) => void;
     updateTodo: (key: string, update: Todo) => void;
     deleteTodo: (key: string) => void;
@@ -21,7 +22,6 @@ interface ContextProps {
     synchronizeTodos: () => void;
     synchronized: boolean;
     syncing: boolean;
-    todos: Todos | undefined;
     inputRef: React.RefObject<HTMLInputElement> | null;
     updateRef: React.RefObject<HTMLInputElement> | null;
 }
@@ -100,6 +100,21 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
         }
     }, [unsavedItems]);
 
+    const addKeyToUnsavedItems = useCallback((key: string) => {
+        if (unsavedItems) {
+            const unsavedItemsSet = new Set([...unsavedItems, key]);
+            const updatedItemsList: string[] = [];
+            unsavedItemsSet.forEach(val => updatedItemsList.push(val));
+            setUnsavedItems(updatedItemsList);
+        }
+    }, [unsavedItems]);
+
+    const removeKeyFromUnsavedItems = useCallback((key: string) => {
+        if (unsavedItems) {
+            setUnsavedItems(unsavedItems.filter(item => item !== key));
+        }
+    }, [unsavedItems]);
+
     const addTodo = useCallback((name: string) => {
         const key = String(Math.floor(Math.random() * 999999999999));
         const created = Date.now();
@@ -120,17 +135,9 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
             setTodos([newTodo]);
         }
 
-        if (unsavedItems) {
-            const unsavedItemsSet = new Set([...unsavedItems, key]);
-            const updatedItemsList: string[] = [];
-            unsavedItemsSet.forEach(val => {
-                updatedItemsList.push(val);
-            });
+        addKeyToUnsavedItems(key);
 
-            setUnsavedItems(updatedItemsList);
-        }
-
-    }, [todos, unsavedItems]);
+    }, [todos]);
 
     const updateTodo = useCallback((key: string, update: Todo) => {
         if (todos) {
@@ -141,17 +148,9 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
                 return todo;
             }));
 
-            if (unsavedItems) {
-                const unsavedItemsSet = new Set([...unsavedItems, key]);
-                const updatedItemsList: string[] = [];
-                unsavedItemsSet.forEach(val => {
-                    updatedItemsList.push(val);
-                });
-
-                setUnsavedItems(updatedItemsList);
-            }
+            addKeyToUnsavedItems(key);
         }
-    }, [todos, unsavedItems]);
+    }, [todos]);
 
     const deleteTodo = useCallback((key: string) => {
         if (todos) {
@@ -162,40 +161,21 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
                 return todo;
             }));
 
-            if (unsavedItems) {
-                const unsavedItemsSet = new Set([...unsavedItems, key]);
-                const updatedItemsList: string[] = [];
-                unsavedItemsSet.forEach(val => {
-                    updatedItemsList.push(val);
-                });
-
-                setUnsavedItems(updatedItemsList);
-            }
+            addKeyToUnsavedItems(key);
         }
     }, [todos]);
 
     const deleteTodoPermanently = useCallback((key: string) => {
-
         api.deleteData(key)
-            .then(r => {
-                console.log(r.key);
-                return r.key;
-            })
+            .then(r => r.key)
             .then(key => {
-                if (unsavedItems) {
-                    setUnsavedItems(unsavedItems.filter(item => item !== key));
+                removeKeyFromUnsavedItems(key);
+                if (todos) {
+                    setTodos(todos.filter(todo => todo.key !== key));
                 }
             })
-            .catch(err => console.log("ERRO: ", err))
-            .finally(() => {
-                if (todos) {
-                    setTodos(todos.filter(todo => {
-                        return todo.key !== key;
-                    }));
-                }
-            });
-
-    }, [todos, unsavedItems]);
+            .catch(err => console.log("Error deleting from server: ", err));
+    }, [todos]);
 
     const synchronizeTodos = useCallback(async () => {
         const synchronize = async () => {
@@ -203,7 +183,7 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
             if (unsavedItems) {
                 unsavedItems.forEach(key => {
                     if (todos) {
-                        const todo: Todo = todos.filter(todo => (todo.key === key))[0];
+                        const todo: Todo = todos.filter(todo => todo.key === key)[0];
                         itemsToSync.push(todo);
                     }
                 });
@@ -211,12 +191,9 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
                 api.postData(itemsToSync)
                     .then(syncedTodos => {
                         const syncedKeys = syncedTodos.map(item => item.key);
-                        setUnsavedItems(unsavedItems.filter(key => {
-                            return !syncedKeys.includes(key);
-                        }));
-
+                        setUnsavedItems(unsavedItems.filter(key => !syncedKeys.includes(key)));
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => console.log("Synchronization error: ", err))
                     .finally(() => setSyncing(false));
             }
         };
@@ -226,6 +203,7 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
     }, [unsavedItems, todos]);
 
     const value = {
+        todos,
         addTodo,
         updateTodo,
         deleteTodo,
@@ -233,7 +211,6 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
         synchronizeTodos,
         synchronized: !unsavedItems || unsavedItems.length === 0,
         syncing,
-        todos,
         inputRef,
         updateRef
     };
