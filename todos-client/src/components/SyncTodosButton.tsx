@@ -5,7 +5,7 @@ import { Button } from ".";
 
 const SyncTodosButton = () => {
 
-    const { synchronizeTodos, synchronized } = useTodos();
+    const { synchronizeTodos, synchronized, syncing } = useTodos();
 
     return (
         <Button
@@ -14,11 +14,13 @@ const SyncTodosButton = () => {
                     "button button__sync button__sync--synced" :
                     "button button__sync"
             }
-            label={synchronized ? "Synced!" : "Sync"}
             type="button"
-            disabled={synchronized}
+            disabled={synchronized || syncing}
             onClick={synchronizeTodos}
-        />
+            label={ synchronized ? "Synced!" : "Sync" }
+        >
+            { syncing && "Syncing..." }
+        </Button>
     );
 };
 

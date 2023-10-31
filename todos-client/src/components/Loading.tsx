@@ -1,7 +1,9 @@
+import Icon from "@/icons";
+
 const Loading = () => {
 
     return <div className="loading">
-        Loading...
+        <Icon icon="loader" className="spinning" />
     </div>
 };
 

@@ -1,0 +1,267 @@
+@keyframes spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.spinning {
+  animation-name: spinning;
+  animation-duration: 0.8s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10rem;
+  color: aliceblue;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 1rem;
+}
+
+.main-container {
+  flex-grow: 1;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+.header__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header__top__buttons .button {
+  padding: 0.8rem;
+  border-radius: 0.4rem;
+  width: 8rem;
+}
+.header__top__buttons .button__sync {
+  cursor: pointer;
+  border: 2px slateblue solid;
+  color: slateblue;
+}
+.header__top__buttons .button__sync--synced:disabled {
+  background-color: rgba(144, 238, 144, 0.75);
+}
+
+.todos__menu__button {
+  padding: 1rem 2rem;
+  cursor: pointer;
+}
+.todos__menu__button--active {
+  border: none;
+  background-color: cornflowerblue;
+  border-radius: 0.6rem;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  color: whitesmoke;
+  font-weight: bold;
+  cursor: default;
+}
+.todos #current,
+.todos #completed,
+.todos #deleted {
+  padding: 1rem;
+}
+.todos__content {
+  background-color: cornflowerblue;
+  position: relative;
+  top: -0.2rem;
+}
+.todos__content__current {
+  display: none;
+}
+.todos__content__current--active {
+  display: block;
+  justify-content: space-between;
+}
+.todos__content__completed {
+  display: none;
+}
+.todos__content__completed--active {
+  display: block;
+  justify-content: space-between;
+}
+.todos__content__deleted {
+  display: none;
+}
+.todos__content__deleted--active {
+  display: block;
+  justify-content: space-between;
+}
+
+.form__group {
+  display: flex;
+  border: 0.2rem solid lightsteelblue;
+  border-radius: 0.4rem;
+}
+.form__group__input {
+  flex-grow: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.2rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form__group__input:focus {
+  outline: none;
+  outline: 0.2rem darkblue solid;
+}
+.form__group__button {
+  cursor: pointer;
+  padding: 0.4rem 1rem;
+  background-color: lightsteelblue;
+  border: none;
+  border-radius: 0.2rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: 0.2rem;
+  color: darkslateblue;
+}
+.form__group__button:disabled {
+  background-color: rgba(176, 196, 222, 0.75);
+}
+.form__group__button:hover {
+  background-color: rgba(176, 196, 222, 0.75);
+}
+
+.list__item,
+.list-completed__item,
+.list-deleted__item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem;
+  margin: 0.3rem;
+  font-size: 1.4rem;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.75);
+  background-color: cornsilk;
+}
+.list__item:hover,
+.list-completed__item:hover,
+.list-deleted__item:hover {
+  background-color: rgba(255, 248, 220, 0.75);
+}
+.list__item--finished,
+.list-completed__item--finished,
+.list-deleted__item--finished {
+  background-color: aquamarine;
+}
+.list__item--finished:hover,
+.list-completed__item--finished:hover,
+.list-deleted__item--finished:hover {
+  background-color: rgba(127, 255, 212, 0.75);
+}
+.list__item--deleted,
+.list-completed__item--deleted,
+.list-deleted__item--deleted {
+  background-color: crimson;
+  color: antiquewhite;
+}
+.list__item--deleted:hover,
+.list-completed__item--deleted:hover,
+.list-deleted__item--deleted:hover {
+  background-color: rgba(220, 20, 60, 0.75);
+}
+.list__item__value,
+.list-completed__item__value,
+.list-deleted__item__value {
+  display: none;
+}
+.list__item__value--show,
+.list-completed__item__value--show,
+.list-deleted__item__value--show {
+  flex-grow: 1;
+  display: flex;
+}
+.list__item__input,
+.list-completed__item__input,
+.list-deleted__item__input {
+  display: none;
+}
+.list__item__input--show,
+.list-completed__item__input--show,
+.list-deleted__item__input--show {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+}
+.list__item__input--show input,
+.list-completed__item__input--show input,
+.list-deleted__item__input--show input {
+  font-size: 1.4rem;
+  font-family: sans-serif;
+  border: none;
+  flex-grow: 1;
+}
+.list__item__name,
+.list-completed__item__name,
+.list-deleted__item__name {
+  flex-grow: 1;
+}
+.list__item__buttons .button__control,
+.list-completed__item__buttons .button__control,
+.list-deleted__item__buttons .button__control {
+  cursor: pointer;
+  margin-right: 0.8rem;
+}
+.list__item__buttons .button__update-todo,
+.list-completed__item__buttons .button__update-todo,
+.list-deleted__item__buttons .button__update-todo {
+  margin-left: 1rem;
+}
+.list__item__buttons .button__delete-todo,
+.list-completed__item__buttons .button__delete-todo,
+.list-deleted__item__buttons .button__delete-todo {
+  margin-right: 0;
+}
+
+.footer {
+  text-align: center;
+  padding: 0.4rem 0;
+}
+
+/*# sourceMappingURL=index.css.map */

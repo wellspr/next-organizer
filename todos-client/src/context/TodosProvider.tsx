@@ -19,7 +19,8 @@ interface ContextProps {
     deleteTodo: (key: string) => void;
     deleteTodoPermanently: (key: string) => void;
     synchronizeTodos: () => void;
-    synchronized: boolean
+    synchronized: boolean;
+    syncing: boolean;
     todos: Todos | undefined;
     inputRef: React.RefObject<HTMLInputElement> | null;
     updateRef: React.RefObject<HTMLInputElement> | null;
@@ -33,6 +34,7 @@ const defaultValue: ContextProps = {
     deleteTodoPermanently: () => { },
     synchronizeTodos: () => { },
     synchronized: true,
+    syncing: false,
     inputRef: null,
     updateRef: null,
 };
@@ -48,6 +50,7 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
 
     const [todos, setTodos] = useState<Todos>();
     const [unsavedItems, setUnsavedItems] = useState<string[]>();
+    const [syncing, setSyncing] = useState<boolean>(false);
 
     useEffect(() => {
         store.getLocalUnsavedItems()
@@ -172,30 +175,26 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
     }, [todos]);
 
     const deleteTodoPermanently = useCallback((key: string) => {
-        if (unsavedItems) {
-            api.deleteData(key)
-                .then(r => {
-                    console.log(r.key);
-                })
-                .catch(err => console.log("ERRO: ", err))
-                .finally(() => {
-                    if (todos) {
-                        setTodos(todos.filter(todo => {
-                            return todo.key !== key;
-                        }));
-                    }
-                });
-        }
 
-        if (todos) {
-            setTodos(todos.filter(todo => {
-                return todo.key !== key;
-            }));
-        }
+        api.deleteData(key)
+            .then(r => {
+                console.log(r.key);
+                return r.key;
+            })
+            .then(key => {
+                if (unsavedItems) {
+                    setUnsavedItems(unsavedItems.filter(item => item !== key));
+                }
+            })
+            .catch(err => console.log("ERRO: ", err))
+            .finally(() => {
+                if (todos) {
+                    setTodos(todos.filter(todo => {
+                        return todo.key !== key;
+                    }));
+                }
+            });
 
-        if (unsavedItems) {
-            setUnsavedItems(unsavedItems.filter(item => item !== key));
-        }
     }, [todos, unsavedItems]);
 
     const synchronizeTodos = useCallback(async () => {
@@ -216,10 +215,13 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
                             return !syncedKeys.includes(key);
                         }));
 
-                    });
+                    })
+                    .catch(err => console.log(err))
+                    .finally(() => setSyncing(false));
             }
         };
 
+        setSyncing(true);
         synchronize();
     }, [unsavedItems, todos]);
 
@@ -230,6 +232,7 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
         deleteTodoPermanently,
         synchronizeTodos,
         synchronized: !unsavedItems || unsavedItems.length === 0,
+        syncing,
         todos,
         inputRef,
         updateRef
