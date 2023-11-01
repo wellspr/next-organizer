@@ -1,4 +1,4 @@
-import { ActiveSectionProvider } from "@/context";
+import { Provider } from "@/context";
 
 export default function TodosLayout(props: {
     menu: React.ReactNode,
@@ -6,10 +6,10 @@ export default function TodosLayout(props: {
 }) {
     return (
         <div className="todos">
-            <ActiveSectionProvider>
+            <Provider.ActiveSection>
                 {props.menu}
                 {props.content}
-            </ActiveSectionProvider>
+            </Provider.ActiveSection>
         </div>
     );
 }

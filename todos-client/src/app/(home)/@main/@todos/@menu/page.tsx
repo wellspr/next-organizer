@@ -1,5 +1,5 @@
-import { TodosMenu } from "@/components";
+import { Todos } from "@/components";
 
-const Menu = () => <TodosMenu />;
+const Menu = () => <Todos.Menu />;
 
 export default Menu;

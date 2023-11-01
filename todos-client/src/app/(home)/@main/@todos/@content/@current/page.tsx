@@ -1,5 +1,5 @@
-import { TodosList } from "@/components";
+import { Todos } from "@/components";
 
-const Current = () => <TodosList />
+const Current = () => <Todos.Current />
 
 export default Current;

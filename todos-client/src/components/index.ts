@@ -6,18 +6,22 @@ import TodosCompleted from "./TodosCompleted";
 import TodosContent from "./TodosContent";
 import TodosDeleted from "./TodosDeleted";
 import TodosInput from "./TodosInput";
-import TodosList from "./TodosList";
+import TodosCurrent from "./TodosCurrent";
 import TodosMenu from "./TodosMenu";
+
+const Todos = {
+    Completed: TodosCompleted,
+    Content: TodosContent,
+    Deleted: TodosDeleted,
+    Input: TodosInput,
+    Current: TodosCurrent,
+    Menu: TodosMenu,
+    SyncButton: SyncTodosButton,
+};
 
 export {
     Button,
     Loading,
     Section,
-    SyncTodosButton,
-    TodosCompleted,
-    TodosContent,
-    TodosDeleted,
-    TodosInput,
-    TodosList,
-    TodosMenu,
+    Todos,    
 };

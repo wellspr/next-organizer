@@ -1,9 +1,9 @@
-import { TodosContent } from "@/components";
+import { Todos } from "@/components";
 
 const ContentLayout = (props: {
     current: React.ReactNode,
     completed: React.ReactNode,
     deleted: React.ReactNode,
-}) => <TodosContent { ...props } />
+}) => <Todos.Content { ...props } />
 
 export default ContentLayout;

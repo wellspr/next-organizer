@@ -1,5 +1,5 @@
-import { TodosCompleted } from "@/components";
+import { Todos } from "@/components";
 
-const Completed = () => <TodosCompleted />;
+const Completed = () => <Todos.Completed />;
 
 export default Completed;

@@ -1,5 +1,5 @@
-import { TodosInput } from "@/components";
+import { Todos } from "@/components";
 
-const Input = () => <TodosInput />;
+const Input = () => <Todos.Input />;
 
 export default Input;

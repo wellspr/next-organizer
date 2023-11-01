@@ -1,5 +1,5 @@
-import { TodosDeleted } from "@/components";
+import { Todos } from "@/components";
 
-const Deleted = () => <TodosDeleted /> 
+const Deleted = () => <Todos.Deleted /> 
 
 export default Deleted;

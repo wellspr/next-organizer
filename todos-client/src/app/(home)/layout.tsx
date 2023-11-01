@@ -1,7 +1,7 @@
 import '@/styles/index.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import TodosProvider from '@/context';
+import { Provider } from '@/context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,11 +20,11 @@ export default function RootLayout(props: {
         <html lang="en">
             <body className={inter.className}>
                 <div className="container">
-                    <TodosProvider>
+                    <Provider.Todos>
                         { props.header }
                         { props.main }
                         { props.footer }
-                    </TodosProvider>
+                    </Provider.Todos>
                 </div>
             </body>
         </html>
