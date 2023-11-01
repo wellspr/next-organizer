@@ -12,11 +12,10 @@ const db = axios.create({
 });
 
 export const api = {
-
     deleteData: async (key: string) => {
         console.log("KEY: ", key);
         const response = await db.delete("/delete", { data: { key } });
-        return { key: response.data.key };
+        return { key: response.data.key as string };
     },
 
     postData: async (todos: Todo[]) => {
@@ -25,7 +24,7 @@ export const api = {
         return data.processed.items as Todos;
     },
 
-    getTodosFromServer: async () => {
+    fetchData: async () => {
         const response: AxiosResponse = await db.get("/fetch");
         const data: FetchResponse = response.data;
         return data.items as Todos;

@@ -14,14 +14,6 @@
     animation-timing-function: linear;
 }
 
-.loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 10rem;
-    color: aliceblue;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -189,9 +181,22 @@ body {
     }
 }
 
-.list,
-.list-completed,
-.list-deleted {
+.list {    
+    &__loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: aliceblue;
+    }
+    &__empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 1.8rem;
+        padding: 1.8rem 0;
+        color: aliceblue;
+    }
     &__item {
         display: flex;
         justify-content: space-between;

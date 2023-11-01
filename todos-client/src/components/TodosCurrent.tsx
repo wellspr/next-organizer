@@ -1,21 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import { Todo, useTodos } from "@/context";
+import { useEffect, useState } from "react";
+import { Todo, Todos, useTodos } from "@/context";
 import { Button, Loading } from ".";
 
-const TodosList = () => {
+const TodosCurrent = () => {
 
-    const { 
-        todos, 
+    const {
+        todos,
         updateTodo,
         deleteTodo,
         inputRef,
-        updateRef, 
+        updateRef,
     } = useTodos();
 
     const [updated, setUpdated] = useState<string>("");
     const [selectedForUpdate, setSelectedForUpdate] = useState<string | null>(null);
+    const [current, setCurrent] = useState<Todos>();
 
     const showUpdateInput = (todo: Todo) => {
         setUpdated(todo.name);
@@ -29,19 +30,34 @@ const TodosList = () => {
         inputRef?.current?.focus();
     };
 
-    if (!todos) {
+    useEffect(() => {
+        if (todos) {
+            setCurrent(todos.filter(todo => {
+                return todo.finished === false && todo.deleted === false;
+            }));
+        }
+    }, [todos]);
+
+    if (!current) {
         return <div className="list">
-            <Loading />
+            <div className="list__empty">
+                <Loading />
+            </div>
+        </div>
+    }
+
+    if (current && current.length === 0) {
+        return <div className="list">
+            <div className="list__empty list__empty--current">
+                There are no Todos to do!
+            </div>
         </div>
     }
 
     return (
-        <div className="list">
+        <div className="list current">
             {
-                todos.map(todo => {
-
-                    if (todo.finished || todo.deleted) return null;
-                    
+                current.map(todo => {
                     return (
                         <li
                             key={todo.key}
@@ -121,4 +137,4 @@ const TodosList = () => {
     );
 };
 
-export default TodosList;
+export default TodosCurrent;

@@ -23,14 +23,6 @@
   animation-timing-function: linear;
 }
 
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 10rem;
-  color: aliceblue;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -167,9 +159,21 @@ body {
   background-color: rgba(176, 196, 222, 0.75);
 }
 
-.list__item,
-.list-completed__item,
-.list-deleted__item {
+.list__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: aliceblue;
+}
+.list__empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  padding: 1.8rem 0;
+  color: aliceblue;
+}
+.list__item {
   display: flex;
   justify-content: space-between;
   padding: 0.8rem;
@@ -180,82 +184,54 @@ body {
   color: rgba(0, 0, 0, 0.75);
   background-color: cornsilk;
 }
-.list__item:hover,
-.list-completed__item:hover,
-.list-deleted__item:hover {
+.list__item:hover {
   background-color: rgba(255, 248, 220, 0.75);
 }
-.list__item--finished,
-.list-completed__item--finished,
-.list-deleted__item--finished {
+.list__item--finished {
   background-color: aquamarine;
 }
-.list__item--finished:hover,
-.list-completed__item--finished:hover,
-.list-deleted__item--finished:hover {
+.list__item--finished:hover {
   background-color: rgba(127, 255, 212, 0.75);
 }
-.list__item--deleted,
-.list-completed__item--deleted,
-.list-deleted__item--deleted {
+.list__item--deleted {
   background-color: crimson;
   color: antiquewhite;
 }
-.list__item--deleted:hover,
-.list-completed__item--deleted:hover,
-.list-deleted__item--deleted:hover {
+.list__item--deleted:hover {
   background-color: rgba(220, 20, 60, 0.75);
 }
-.list__item__value,
-.list-completed__item__value,
-.list-deleted__item__value {
+.list__item__value {
   display: none;
 }
-.list__item__value--show,
-.list-completed__item__value--show,
-.list-deleted__item__value--show {
+.list__item__value--show {
   flex-grow: 1;
   display: flex;
 }
-.list__item__input,
-.list-completed__item__input,
-.list-deleted__item__input {
+.list__item__input {
   display: none;
 }
-.list__item__input--show,
-.list-completed__item__input--show,
-.list-deleted__item__input--show {
+.list__item__input--show {
   flex-grow: 1;
   display: flex;
   justify-content: space-between;
 }
-.list__item__input--show input,
-.list-completed__item__input--show input,
-.list-deleted__item__input--show input {
+.list__item__input--show input {
   font-size: 1.4rem;
   font-family: sans-serif;
   border: none;
   flex-grow: 1;
 }
-.list__item__name,
-.list-completed__item__name,
-.list-deleted__item__name {
+.list__item__name {
   flex-grow: 1;
 }
-.list__item__buttons .button__control,
-.list-completed__item__buttons .button__control,
-.list-deleted__item__buttons .button__control {
+.list__item__buttons .button__control {
   cursor: pointer;
   margin-right: 0.8rem;
 }
-.list__item__buttons .button__update-todo,
-.list-completed__item__buttons .button__update-todo,
-.list-deleted__item__buttons .button__update-todo {
+.list__item__buttons .button__update-todo {
   margin-left: 1rem;
 }
-.list__item__buttons .button__delete-todo,
-.list-completed__item__buttons .button__delete-todo,
-.list-deleted__item__buttons .button__delete-todo {
+.list__item__buttons .button__delete-todo {
   margin-right: 0;
 }
 

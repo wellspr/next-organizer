@@ -72,7 +72,7 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
 
                     setUnsavedItems([]);
 
-                    api.getTodosFromServer()
+                    api.fetchData()
                         .then(todos => {
                             if (todos && todos.length > 0) {
                                 setTodos(todos);
