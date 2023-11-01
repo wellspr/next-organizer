@@ -137,7 +137,7 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
 
         addKeyToUnsavedItems(key);
 
-    }, [todos]);
+    }, [todos, addKeyToUnsavedItems]);
 
     const updateTodo = useCallback((key: string, update: Todo) => {
         if (todos) {
@@ -150,7 +150,7 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
 
             addKeyToUnsavedItems(key);
         }
-    }, [todos]);
+    }, [todos, addKeyToUnsavedItems]);
 
     const deleteTodo = useCallback((key: string) => {
         if (todos) {
@@ -163,7 +163,7 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
 
             addKeyToUnsavedItems(key);
         }
-    }, [todos]);
+    }, [todos, addKeyToUnsavedItems]);
 
     const deleteTodoPermanently = useCallback((key: string) => {
         api.deleteData(key)
@@ -175,7 +175,7 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
                 }
             })
             .catch(err => console.log("Error deleting from server: ", err));
-    }, [todos]);
+    }, [todos, removeKeyFromUnsavedItems]);
 
     const synchronizeTodos = useCallback(async () => {
         const synchronize = async () => {

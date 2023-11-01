@@ -16,12 +16,12 @@ const Todos = {
     Input: TodosInput,
     Current: TodosCurrent,
     Menu: TodosMenu,
-    SyncButton: SyncTodosButton,
 };
 
 export {
     Button,
     Loading,
     Section,
-    Todos,    
+    Todos,
+    SyncTodosButton as SyncButton,
 };

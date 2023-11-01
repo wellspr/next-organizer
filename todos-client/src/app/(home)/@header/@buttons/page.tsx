@@ -1,9 +1,9 @@
-import { Todos } from "@/components";
+import { SyncButton } from "@/components";
 
 const Buttons = () => {
     return (
         <div className="header__top__buttons">
-            <Todos.SyncButton />
+            <SyncButton />
         </div>
     );
 };
