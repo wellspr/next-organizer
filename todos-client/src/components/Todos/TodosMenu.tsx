@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from ".";
 import { useActiveSection } from "@/context";
+import Button from "../Common/Button";
 
 const TodosMenu = () => {
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useActiveSection } from "@/context";
-import { Section } from ".";
+import Section from "../Common/Section";
 
 const TodosContent = (props: {
     current: React.ReactNode,

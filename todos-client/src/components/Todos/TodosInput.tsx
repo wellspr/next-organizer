@@ -1,7 +1,8 @@
 "use client";
+
 import { useState } from "react";
-import { useTodos } from "../context";
-import { Button } from ".";
+import { useTodos } from "../../context";
+import Button from "../Common/Button";
 
 const TodosInput = () => {
 

@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Todo, Todos, useTodos } from "@/context";
-import { Button, Loading } from ".";
+import Loading from "../Common/Loading";
+import Button from "../Common/Button";
 
 const TodosCurrent = () => {
 

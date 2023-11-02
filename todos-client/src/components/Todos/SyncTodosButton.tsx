@@ -1,7 +1,7 @@
 "use client";
 
 import { useTodos } from "@/context";
-import { Button } from ".";
+import Button from "../Common/Button";
 
 const SyncTodosButton = () => {
 

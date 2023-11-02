@@ -1,8 +1,9 @@
 "use client";
 
-import { Todos, useTodos } from "@/context";
-import { Button, Loading } from ".";
 import { useEffect, useState } from "react";
+import { Todos, useTodos } from "@/context";
+import Loading from "../Common/Loading";
+import Button from "../Common/Button";
 
 const TodosCompleted = () => {
 
