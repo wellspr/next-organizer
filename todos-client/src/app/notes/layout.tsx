@@ -6,17 +6,17 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: 'Next Notes',
-    description: 'A Todo App Powered by Next JS',
+    description: 'A Notes App Powered by Next JS',
 };
 
 export default function RootLayout(props: {
-    children: React.ReactNode
+    children: React.ReactNode,
 }) {
     return (
         <html lang="en">
             <body className={inter.className}>
                 <div className="container">
-                    { props.children }
+                    {props.children}
                 </div>
             </body>
         </html>

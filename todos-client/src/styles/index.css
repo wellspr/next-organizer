@@ -64,6 +64,9 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+.header__top__menu a {
+  margin: 1rem;
+}
 .header__top__buttons .button {
   padding: 0.8rem;
   border-radius: 0.4rem;

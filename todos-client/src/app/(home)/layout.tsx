@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout(props: {
-    todos: React.ReactNode,
     header: React.ReactNode,
     main: React.ReactNode,
     footer: React.ReactNode,

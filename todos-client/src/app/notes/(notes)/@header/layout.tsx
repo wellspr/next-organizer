@@ -1,8 +1,6 @@
 const HeaderLayout = (props: {
     appName: React.ReactNode,
     menu: React.ReactNode,
-    buttons: React.ReactNode,
-    input: React.ReactNode,
 }) => {
 
     return (
@@ -10,9 +8,7 @@ const HeaderLayout = (props: {
             <div className="header__top">
                 {props.appName}
                 {props.menu}
-                {props.buttons}
             </div>
-            {props.input}
         </header>
     );
 };

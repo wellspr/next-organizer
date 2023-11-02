@@ -55,6 +55,13 @@ body {
         justify-content: space-between;
         align-items: center;
 
+        &__menu {
+
+            a {
+                margin: 1rem;
+            }
+        }
+
         &__buttons {
             .button {
                 padding: 0.8rem;
