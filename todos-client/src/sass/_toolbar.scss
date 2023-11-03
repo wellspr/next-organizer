@@ -1,0 +1,20 @@
+.toolbar {
+    display: flex;
+}
+
+.toolbar__group {
+    display: flex;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+.stacked {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    border-right: 1px solid burlywood;
+    padding: 0 5px;
+}

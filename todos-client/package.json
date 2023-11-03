@@ -10,9 +10,11 @@
     "sass": "sass ./src/sass/main.scss ./src/styles/index.css --watch"
   },
   "dependencies": {
+    "@wellspr/react-quill-editor": "^0.1.4",
     "axios": "^1.5.1",
     "deta": "^2.0.0",
     "encoding": "^0.1.13",
+    "highlight.js": "^11.9.0",
     "localforage": "^1.10.0",
     "next": "13.5.6",
     "react": "^18",

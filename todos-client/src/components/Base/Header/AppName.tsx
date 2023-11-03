@@ -9,7 +9,7 @@ const AppName = (props: {
                 "app-name"
             }
             >
-            <h1>Next Todos</h1>
+            <h1>Next Organizer</h1>
         </div>
     );
 };
