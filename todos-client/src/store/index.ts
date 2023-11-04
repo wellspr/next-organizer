@@ -1,33 +1,63 @@
 import localforage from "localforage";
-import { Todos } from "@/types";
+import { Notes, Todos } from "@/types";
 
-export const localDB = localforage.createInstance({
-    name: "localDB",
+/* Todos */
+export const localTodosDB = localforage.createInstance({
+    name: "localTodosDB",
 });
 
-const getLocalData: () => Promise<(Todos | null)> = async () => {
-    const data: (Todos | null) = await localDB.getItem("todos");
-    return data;
+const getLocalTodos: () => Promise<Todos | null> = async () => {
+    const response: (Todos | null) = await localTodosDB.getItem("todos");
+    return response;
 };
 
-const setLocalData = async (todos: Todos) => {
-    const response: Todos = await localDB.setItem("todos", todos);
+const setLocalTodos = async (todos: Todos) => {
+    const response: Todos = await localTodosDB.setItem("todos", todos);
     return response;
 };
 
 const getLocalUnsavedItems = async () => {
-    const unsavedItems: (string[] | null) = await localDB.getItem("unsaved_items");
+    const unsavedItems: (string[] | null) = await localTodosDB.getItem("unsaved_items");
     return unsavedItems;
 };
 
 const setLocalUnsavedItems = async (unsavedItems: string[]) => {
-    const response = await localDB.setItem("unsaved_items", unsavedItems);
+    const response = await localTodosDB.setItem("unsaved_items", unsavedItems);
     return response;
 };
 
+const todos = {
+    get: getLocalTodos,
+    set: setLocalTodos,
+};
+
+const unsavedTodos = {
+    get: getLocalUnsavedItems,
+    set: setLocalUnsavedItems,
+};
+
+/* Notes */
+export const localNotesDB = localforage.createInstance({
+    name: "localNotesDB",
+});
+
+const getLocalNotes: () => Promise<Notes | null> = async () => {
+    const response: (Notes | null) = await localNotesDB.getItem("notes");
+    return response;
+};
+
+const setLocalNotes = async (notes: Notes) => {
+    const response: Notes = await localNotesDB.setItem("notes", notes);
+    return response;
+};
+
+const notes = {
+    get: getLocalNotes,
+    set: setLocalNotes,
+};
+
 export const store = {
-    getLocalData,
-    setLocalData,
-    getLocalUnsavedItems,
-    setLocalUnsavedItems,
+    todos,
+    unsavedTodos,
+    notes,
 };
