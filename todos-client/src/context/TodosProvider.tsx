@@ -41,9 +41,7 @@ const defaultValue: ContextProps = {
 
 const Context = createContext<ContextProps>(defaultValue);
 
-interface TodosProviderProps { children: React.ReactNode }
-
-const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
+const TodosProvider = (props: { children: React.ReactNode }) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
     const updateRef = useRef<HTMLInputElement>(null);
@@ -53,13 +51,13 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
     const [syncing, setSyncing] = useState<boolean>(false);
 
     useEffect(() => {
-        store.getLocalUnsavedItems()
+        store.unsavedTodos.get()
             .then(items => {
                 if (items && items.length > 0) {
 
                     setUnsavedItems(items);
 
-                    store.getLocalData()
+                    store.todos.get()
                         .then(localData => {
                             if (localData) {
                                 setTodos(localData);
@@ -76,7 +74,7 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
                         .then(todos => {
                             if (todos && todos.length > 0) {
                                 setTodos(todos);
-                                store.setLocalData(todos);
+                                store.todos.set(todos);
                             } else {
                                 setTodos([]);
                             }
@@ -88,14 +86,14 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
 
     useEffect(() => {
         if (todos) {
-            store.setLocalData(todos)
+            store.todos.set(todos)
                 .then(todos => console.log("TODOS: ", todos));
         }
     }, [todos]);
 
     useEffect(() => {
         if (unsavedItems) {
-            store.setLocalUnsavedItems(unsavedItems)
+            store.unsavedTodos.set(unsavedItems)
                 .then(unsavedItems => console.log("UNSAVED: ", unsavedItems));
         }
     }, [unsavedItems]);
@@ -215,9 +213,11 @@ const TodosProvider: React.FC<TodosProviderProps> = ({ children }) => {
         updateRef
     };
 
-    return <Context.Provider value={value}>
-        {children}
-    </Context.Provider>
+    return (
+        <Context.Provider value={value}>
+            {props.children}
+        </Context.Provider>
+    );
 };
 
 export default TodosProvider;
