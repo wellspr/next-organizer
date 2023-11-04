@@ -131,6 +131,15 @@ body {
     }
 }
 
+.notes {
+
+    &__content {}
+
+    &__list {
+        &__item {}
+    }
+}
+
 .form {
     &__group {
         display: flex;

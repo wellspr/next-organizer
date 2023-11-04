@@ -1,12 +1,10 @@
-import { Provider } from "@/context";
-
-export default function NotesLayout (props: {
-    edit: React.ReactNode
+export default function NotesLayout(props: {
+    content: React.ReactNode
 }) {
 
     return (
-        <Provider.Notes>
-            {props.edit}
-        </Provider.Notes>
+        <div className="notes">
+            {props.content}
+        </div>
     );
 };

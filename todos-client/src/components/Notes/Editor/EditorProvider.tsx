@@ -9,16 +9,21 @@ const Provider = dynamic(() =>
     { ssr: false }
 );
 
-const config: Config = {
-    options: {
-        theme: "snow",
-        modules: {
-            toolbar: "#toolbar"
-        },
-    },
-};
+const EditorProvider = (props: {
+    readOnly?: boolean;
+    children: React.ReactNode
+}) => {
 
-const EditorProvider = (props: { children: React.ReactNode }) => {
+    const config: Config = {
+        options: {
+            theme: "snow",
+            modules: {
+                toolbar: "#toolbar",
+            },
+            readOnly: props.readOnly || false,
+        },
+    };
+
     return (
         <Provider config={config}>
             {props.children}

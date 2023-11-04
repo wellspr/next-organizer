@@ -1,13 +1,15 @@
+import { Provider } from "@/context";
+
 export default function Layout(props: {
     header: React.ReactNode,
     main: React.ReactNode,
     footer: React.ReactNode,
 }) {
     return (
-        <div className="container">
+        <Provider.Notes>
             {props.header}
             {props.main}
             {props.footer}
-        </div>
+        </Provider.Notes>
     );
 }

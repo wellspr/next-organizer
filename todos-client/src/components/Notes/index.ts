@@ -1,7 +1,9 @@
-import EditorComponent from "./Editor/EditorComponent";
-import EditorProvider from "./Editor/Provider";
+import NotesEditor from "./NotesEditor";
+import NotesList from "./NotesList";
+import NotesContent from "./NotesContent";
 
 export { 
-    EditorComponent as Editor, 
-    EditorProvider 
+    NotesEditor as Editor,
+    NotesList as List,
+    NotesContent as Content,
 };
