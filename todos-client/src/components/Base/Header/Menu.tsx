@@ -11,6 +11,7 @@ const Menu = (props: {
         }>
             <nav>
                 <Link href={"/"}>Home</Link>
+                <Link href={"/todos"}>Todos</Link>
                 <Link href={"/notes"}>Notes</Link>
             </nav>
         </div>
