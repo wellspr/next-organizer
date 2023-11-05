@@ -84,17 +84,27 @@ body {
 .header__top__menu a {
   margin: 1rem;
 }
-.header__top__buttons .button {
-  padding: 0.8rem;
+.header__opt {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.header__opt__buttons {
+  order: -1;
+  margin-right: 0.3rem;
+}
+.header__opt__buttons .button {
+  padding: 1rem;
   border-radius: 0.4rem;
   width: 8rem;
 }
-.header__top__buttons .button__sync {
+.header__opt__buttons .button__sync {
   cursor: pointer;
   border: 2px slateblue solid;
   color: slateblue;
 }
-.header__top__buttons .button__sync--synced:disabled {
+.header__opt__buttons .button__sync--synced:disabled {
   background-color: rgba(144, 238, 144, 0.75);
 }
 
@@ -144,6 +154,9 @@ body {
   justify-content: space-between;
 }
 
+.form {
+  flex-grow: 1;
+}
 .form__group {
   display: flex;
   border: 0.2rem solid lightsteelblue;

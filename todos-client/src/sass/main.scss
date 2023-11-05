@@ -48,10 +48,20 @@ body {
                 margin: 1rem;
             }
         }
+    }
+
+    &__opt {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
 
         &__buttons {
+            order: -1;
+            margin-right: .3rem;
+
             .button {
-                padding: 0.8rem;
+                padding: 1rem;
                 border-radius: 0.4rem;
                 width: 8rem;
 
@@ -141,6 +151,8 @@ body {
 }
 
 .form {
+    flex-grow: 1;
+
     &__group {
         display: flex;
         border: 0.2rem solid lightsteelblue;

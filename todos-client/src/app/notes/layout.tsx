@@ -1,24 +1,19 @@
-import '@/styles/index.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import Footer from "@/components/Base/Footer";
+import Header from "@/components/Base/Header";
+import { Provider } from "@/context";
 
-const inter = Inter({ subsets: ['latin'] });
-
-export const metadata: Metadata = {
-    title: 'Next Notes',
-    description: 'A Notes App Powered by Next JS',
-};
-
-export default function RootLayout(props: {
+export default function Layout(props: {
+    list: React.ReactNode,
     children: React.ReactNode,
 }) {
     return (
-        <html lang="en">
-            <body className={inter.className}>
-                <div className="container">
-                    {props.children}
-                </div>
-            </body>
-        </html>
+        <Provider.Notes>
+            <Header />
+            <main className="main-container">
+                {props.list}
+                {props.children}
+            </main>
+            <Footer />
+        </Provider.Notes>
     );
-}
+};

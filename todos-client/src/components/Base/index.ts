@@ -1,4 +1,4 @@
-import * as Header from "./Header";
-import * as Footer from "./Footer";
+import Header from "./Header";
+import Footer from "./Footer";
 
 export { Header, Footer };

@@ -1,31 +1,27 @@
 import '@/styles/index.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import { Provider } from '@/context';
+import { Todos } from '@/components';
+import { Header, Footer } from '@/components/Base';
 
-const inter = Inter({ subsets: ['latin'] });
-
-export const metadata: Metadata = {
-    title: 'Next Todo App',
-    description: 'A Todo App Powered by Next JS',
-};
-
-export default function RootLayout(props: {
-    header: React.ReactNode,
-    main: React.ReactNode,
-    footer: React.ReactNode,
+export default function HomeLayout(props: {
+    todos: React.ReactNode,
+    children: React.ReactNode
 }) {
     return (
-        <html lang="en">
-            <body className={inter.className}>
-                <div className="container">
-                    <Provider.Todos>
-                        { props.header }
-                        { props.main }
-                        { props.footer }
-                    </Provider.Todos>
+        <Provider.Todos>
+            <Header>
+                <div className="header__opt">
+                    <Todos.Input />
+                    <div className="header__opt__buttons">
+                        <Todos.SyncButton />
+                    </div>
                 </div>
-            </body>
-        </html>
+            </Header>
+            <main className="main-container">
+                {props.todos}
+                {props.children}
+            </main>
+            <Footer />
+        </Provider.Todos>
     );
 }

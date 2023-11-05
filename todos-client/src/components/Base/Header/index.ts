@@ -1,4 +1,3 @@
-import AppName from "./AppName";
-import Menu from "./Menu";
+import Header from "./Header";
 
-export {AppName, Menu};
+export default Header;

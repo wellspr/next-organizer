@@ -1,3 +1,3 @@
-import Copy from "./Copy";
+import Footer from "./Footer";
 
-export { Copy };
+export default Footer;

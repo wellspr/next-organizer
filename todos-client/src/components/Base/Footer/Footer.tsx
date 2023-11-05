@@ -1,7 +1,10 @@
+import Copy from "./Copy";
+
 const Footer = () => {
+
     return (
         <footer className="footer">
-            <p>&copy; 2023 - Next Todos</p>
+            <Copy baseClassName="footer" />
         </footer>
     );
 };
