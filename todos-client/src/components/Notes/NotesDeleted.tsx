@@ -1,24 +1,22 @@
 "use client";
 
 import { useNotes } from "@/context";
-import { useRouter } from "next/navigation";
 import { Button, Loading } from "../Common";
 import { useEffect, useState } from "react";
 import { Notes } from "@/types";
 
-const NotesList = () => {
+const NotesDeleted = () => {
 
-    const { notes, deleteNote } = useNotes();
-    const [current, setCurrent] = useState<Notes>();
-    const router = useRouter();
+    const { notes, restoreNote } = useNotes();
+    const [deleted, setDeleted] = useState<Notes>();
 
     useEffect(() => {
         if (notes) {
-            setCurrent(notes.filter(note => (note.deleted === false)));
+            setDeleted(notes.filter(note => (note.deleted === true)));
         }
     }, [notes]);
 
-    if (!current) {
+    if (!deleted) {
         return <div className="notes__list">
             <div className="notes__list__empty">
                 <Loading />
@@ -26,11 +24,11 @@ const NotesList = () => {
         </div>
     }
 
-    if (current && current.length === 0) {
+    if (deleted && deleted.length === 0) {
         return (
             <div className="notes__list">
                 <div className="notes__list__no-items">
-                    There aren't notes yet!
+                    The trash can is empty!
                 </div>
             </div>
         );
@@ -39,26 +37,21 @@ const NotesList = () => {
     return (
         <ul className="notes__list">
             {
-                current.map(note => {
+                deleted.map(note => {
                     return (
                         <li
                             key={note.key}
                             className="notes__list__item"
                         >
-                            <div
-                                className="notes__list__item__title"
-                                onClick={() => {
-                                    router.push(`/notes/edit/${note.key}`);
-                                }}
-                            >
+                            <div className="notes__list__item__title">
                                 {note.title}
 
                             </div>
                             <Button
                                 className="button"
-                                label="Delete"
+                                label="Restore"
                                 type="button"
-                                onClick={() => { deleteNote(note.key) }}
+                                onClick={() => { restoreNote(note.key) }}
                             />
                         </li>
                     )
@@ -68,4 +61,4 @@ const NotesList = () => {
     );
 };
 
-export default NotesList;
+export default NotesDeleted;

@@ -43,9 +43,15 @@ body {
         align-items: center;
 
         &__menu {
+            nav {
 
-            a {
-                margin: 1rem;
+                a {
+                    font-size: 1.2rem;
+                    text-decoration: none;
+                }
+                a:not(:last-child) {
+                    margin-right: 2rem;
+                }
             }
         }
     }
@@ -143,10 +149,82 @@ body {
 
 .notes {
 
-    &__content {}
+    &__buttons {
+
+        & *:not(:last-child) {
+            margin-right: 1rem;
+        }
+
+        &__button {
+
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border: 2px peru solid;
+            border-radius: .4rem;
+        }
+    }
 
     &__list {
-        &__item {}
+        list-style: none;
+        margin: 1rem 0;
+
+        &__item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem;
+            margin: 0.3rem;
+            font-size: 1.4rem;
+            font-family: sans-serif;
+            font-weight: bold;
+            color: rgba(black, 0.75);
+            background-color: cornsilk;
+
+            
+            &__title {
+                cursor: pointer;
+        
+                &:hover {
+                    background-color: rgba(cornsilk, 0.75);
+                }
+
+            }
+        }
+
+        &__no-items {
+            margin: 2rem 0;
+            font-size: 1.4rem;
+        }
+    }
+}
+
+.editor {
+
+    &__form {}
+
+    &__title-input {
+        padding: 1rem 0;
+
+    }
+
+    &__buttons {
+
+        padding: 1rem 0;
+
+        &__button {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border: 2px peru solid;
+            border-radius: .4rem;
+            
+            &:disabled {
+                background-color: rgba(peru, 0.15);
+                border-color: burlywood;
+            }
+        }
+
+        & > *:not(:last-child){
+            margin-right: .4rem;
+        }
     }
 }
 
@@ -155,8 +233,16 @@ body {
 
     &__group {
         display: flex;
-        border: 0.2rem solid lightsteelblue;
+        border: 0.2rem solid;
         border-radius: 0.4rem;
+
+        &--notes {
+            border-color: burlywood;
+        }
+
+        &--todos {
+            border-color: lightsteelblue;
+        }
 
         //&__label {}
 
@@ -165,12 +251,23 @@ body {
             padding: 1rem;
             border: none;
             border-radius: 0.2rem;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
 
-            &:focus {
-                outline: none;
-                outline: 0.2rem darkblue solid;
+            &--notes {
+                
+                &:focus {
+                    outline: none;
+                    outline: 0.2rem peru solid;
+                }
+            }
+
+            &--todos {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+    
+                &:focus {
+                    outline: none;
+                    outline: 0.2rem darkblue solid;
+                }
             }
         }
 

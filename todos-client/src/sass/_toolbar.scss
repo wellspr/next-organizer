@@ -1,3 +1,7 @@
+#toolbar {
+    border: 2px solid burlywood !important;
+}
+
 .toolbar {
     display: flex;
 }
@@ -15,6 +19,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: start;
-    border-right: 1px solid burlywood;
+    border-right: 2px solid burlywood;
     padding: 0 5px;
 }

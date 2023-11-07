@@ -1,8 +1,8 @@
-export default function Layout (props: {
+export default function EditLayout (props: {
     children: React.ReactNode,
 }) {
     return (
-        <div className="edit">
+        <div className="editor">
             { props.children }
         </div>
     );

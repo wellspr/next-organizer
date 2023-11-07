@@ -1,7 +1,6 @@
-import '@/styles/index.css';
+import { Header, Footer } from '@/components/Base';
 import { Provider } from '@/context';
 import { Todos } from '@/components';
-import { Header, Footer } from '@/components/Base';
 
 export default function HomeLayout(props: {
     todos: React.ReactNode,
