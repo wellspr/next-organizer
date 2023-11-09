@@ -89,12 +89,19 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-.header__top__menu nav a {
+.header__top__menu .menu__nav {
   font-size: 1.2rem;
   text-decoration: none;
+  color: dimgray;
 }
-.header__top__menu nav a:not(:last-child) {
+.header__top__menu .menu__nav:hover {
+  color: rgba(105, 105, 105, 0.75);
+}
+.header__top__menu .menu__nav:not(:last-child) {
   margin-right: 2rem;
+}
+.header__top__menu .menu__nav--active {
+  text-decoration: underline;
 }
 .header__opt {
   display: flex;
@@ -171,9 +178,40 @@ body {
 }
 .notes__buttons__button {
   padding: 1rem 2rem;
-  cursor: pointer;
-  border: 2px peru solid;
   border-radius: 0.4rem;
+  cursor: pointer;
+}
+.notes__buttons__button__new {
+  background-color: rgba(205, 133, 63, 0.05);
+  border: 2px peru solid;
+  color: peru;
+}
+.notes__buttons__button__new:hover {
+  background-color: transparent;
+}
+.notes__buttons__button__trash {
+  background-color: rgba(220, 20, 60, 0.05);
+  border: 2px crimson solid;
+  color: crimson;
+}
+.notes__buttons__button__trash:hover {
+  background-color: transparent;
+}
+.notes__buttons__button__sync {
+  background-color: rgba(255, 165, 0, 0.05);
+  border: 2px orange solid;
+  color: orange;
+}
+.notes__buttons__button__sync--synced {
+  background-color: transparent;
+  border: 2px green solid;
+  color: green;
+}
+.notes__buttons__button__sync--synced:disabled {
+  cursor: default;
+}
+.notes__buttons__button__sync:hover:not(:disabled) {
+  background-color: transparent;
 }
 .notes__list {
   list-style: none;

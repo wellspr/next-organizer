@@ -70,7 +70,7 @@ const TodosProvider = (props: { children: React.ReactNode }) => {
 
                     setUnsavedItems([]);
 
-                    api.fetchData()
+                    api.todos.fetchData()
                         .then(todos => {
                             if (todos && todos.length > 0) {
                                 setTodos(todos);
@@ -79,7 +79,6 @@ const TodosProvider = (props: { children: React.ReactNode }) => {
                                 setTodos([]);
                             }
                         });
-
                 }
             })
     }, []);
@@ -164,7 +163,7 @@ const TodosProvider = (props: { children: React.ReactNode }) => {
     }, [todos, addKeyToUnsavedItems]);
 
     const deleteTodoPermanently = useCallback((key: string) => {
-        api.deleteData(key)
+        api.todos.deleteData(key)
             .then(r => r.key)
             .then(key => {
                 removeKeyFromUnsavedItems(key);
@@ -186,7 +185,7 @@ const TodosProvider = (props: { children: React.ReactNode }) => {
                     }
                 });
 
-                api.postData(itemsToSync)
+                api.todos.postData(itemsToSync)
                     .then(syncedTodos => {
                         const syncedKeys = syncedTodos.map(item => item.key);
                         setUnsavedItems(unsavedItems.filter(key => !syncedKeys.includes(key)));

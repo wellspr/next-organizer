@@ -51,13 +51,29 @@ const setLocalNotes = async (notes: Notes) => {
     return response;
 };
 
+const getLocalUnsavedNotes = async () => {
+    const unsavedNotes: (string[] | null) = await localNotesDB.getItem("unsaved_notes");
+    return unsavedNotes;
+};
+
+const setLocalUnsavedNotes = async (unsavedNotes: string[]) => {
+    const response = await localNotesDB.setItem("unsaved_notes", unsavedNotes);
+    return response;
+};
+
 const notes = {
     get: getLocalNotes,
     set: setLocalNotes,
 };
 
+const unsavedNotes = {
+    get: getLocalUnsavedNotes,
+    set: setLocalUnsavedNotes,
+}
+
 export const store = {
     todos,
     unsavedTodos,
     notes,
+    unsavedNotes,
 };

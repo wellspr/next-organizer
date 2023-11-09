@@ -2,24 +2,50 @@ import { Deta } from "deta";
 
 const deta = Deta();
 
-export const db = deta.Base("todos_db");
+const todosDB = () => {
 
-export const fetchTodos = async () => {
-    return await db.fetch();
+    const db = deta.Base("todos_db");
+
+    const fetchTodos = async () => {
+        return await db.fetch();
+    };
+
+    const saveTodos = async (data) => {
+        return await db.putMany(data);
+    };
+
+    const deleteTodo = async (key) => {
+        return await db.delete(key);
+    };
+
+    return {
+        save: saveTodos,
+        delete: deleteTodo,
+        fetch: fetchTodos,
+    }
 };
 
-export const saveTodos = async (data) => {
-    return await db.putMany(data);
-};
+const notesDB = () => {
 
-export const deleteTodo = async (key) => {
-    return await db.delete(key);
-};
+    const db = deta.Base("notes_db");
 
-const todosDB = {
-    save: saveTodos,
-    delete: deleteTodo,
-    fetch: fetchTodos,
-};
+    const fetchNotes = async () => {
+        return await db.fetch();
+    };
 
-export { todosDB };
+    const saveNotes = async (data) => {
+        return await db.putMany(data);
+    };
+
+    const deleteNote = async (key) => {
+        return await db.delete(key);
+    };
+
+    return {
+        save: saveNotes,
+        delete: deleteNote,
+        fetch: fetchNotes,
+    }
+}
+
+export { todosDB, notesDB };

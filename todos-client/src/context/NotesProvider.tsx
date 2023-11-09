@@ -10,6 +10,7 @@ import {
 
 import { store } from "@/store";
 import { EditorContent, Note, Notes } from "@/types";
+import { api } from "@/db";
 
 interface ContextProps {
     editorContent: EditorContent,
@@ -18,7 +19,11 @@ interface ContextProps {
     addNote: (title: string, content: EditorContent) => void,
     updateNote: (key: string, title: string, content: EditorContent) => void,
     deleteNote: (key: string) => void,
-    restoreNote: (key: string) => void
+    deleteNotePermanently: (key: string) => void,
+    restoreNote: (key: string) => void,
+    synchronizeNotes: () => void,
+    synchronized: boolean,
+    syncing: boolean,
 }
 
 const defaultValue: ContextProps = {
@@ -28,7 +33,11 @@ const defaultValue: ContextProps = {
     addNote: () => { },
     updateNote: () => { },
     deleteNote: () => { },
-    restoreNote: () => { }
+    deleteNotePermanently: () => { },
+    restoreNote: () => { },
+    synchronizeNotes: () => { },
+    synchronized: true,
+    syncing: false,
 };
 
 const Context = createContext<ContextProps>(defaultValue);
@@ -37,21 +46,70 @@ const NotesProvider = (props: { children: React.ReactNode }) => {
 
     const [editorContent, setEditorContent] = useState<EditorContent>(defaultValue.editorContent);
     const [notes, setNotes] = useState<Notes>();
+    const [unsavedNotes, setUnsavedNotes] = useState<string[]>();
+    const [syncing, setSyncing] = useState<boolean>(false);
 
     useEffect(() => {
-        store.notes.get()
-            .then(notes => {
-                if (notes) {
-                    setNotes(notes)
+        store.unsavedNotes.get()
+            .then(unsaved => {
+                if (unsaved && unsaved.length > 0) {
+
+                    setUnsavedNotes(unsaved);
+
+                    store.notes.get()
+                        .then(notes => {
+                            if (notes) {
+                                setNotes(notes)
+                            } else {
+                                setNotes([]);
+                            }
+                        });
+
                 } else {
-                    setNotes([]);
+
+                    setUnsavedNotes([]);
+
+                    api.notes.fetchData()
+                        .then(notes => {
+                            if (notes && notes.length > 0) {
+                                setNotes(notes);
+                                store.notes.set(notes);
+                            } else {
+                                setNotes([]);
+                            }
+                        });
                 }
             })
     }, []);
 
     useEffect(() => {
-        console.log(notes);
+        if (notes) {
+            store.notes.set(notes)
+                .then(notes => console.log("NOTES: ", notes));
+        }
     }, [notes]);
+
+    useEffect(() => {
+        if (unsavedNotes) {
+            store.unsavedNotes.set(unsavedNotes)
+                .then(unsavedNotes => console.log("UNSAVED: ", unsavedNotes));
+        }
+    }, [unsavedNotes]);
+
+    const addKeyToUnsavedNotes = useCallback((key: string) => {
+        if (unsavedNotes) {
+            const unsavedNotesSet = new Set([...unsavedNotes, key]);
+            const updatedNotesList: string[] = [];
+            unsavedNotesSet.forEach(val => updatedNotesList.push(val));
+            setUnsavedNotes(updatedNotesList);
+        }
+    }, [unsavedNotes]);
+
+    const removeKeyFromUnsavedNotes = useCallback((key: string) => {
+        if (unsavedNotes) {
+            setUnsavedNotes(unsavedNotes.filter(noteKey => noteKey !== key));
+        }
+    }, [unsavedNotes]);
 
     const addNote = useCallback((title: string, content: EditorContent) => {
         const key = String(Math.floor(Math.random() * 999999999999));
@@ -69,57 +127,90 @@ const NotesProvider = (props: { children: React.ReactNode }) => {
         if (notes) {
             const updatedNotes: Notes = [newNote, ...notes];
             setNotes(updatedNotes);
-            store.notes.set(updatedNotes);
         } else {
             setNotes([newNote]);
-            store.notes.set([newNote]);
         }
 
-    }, [notes]);
+        addKeyToUnsavedNotes(key);
+
+    }, [notes, addKeyToUnsavedNotes]);
 
     const updateNote = useCallback((key: string, title: string, content: EditorContent) => {
         if (notes) {
-            const updated: Notes = notes.map(note => {
-                const updatedNote: Note = { ...note, ...{ updated: Date.now(), title, content } }
+            setNotes(notes.map(note => {
                 if (note.key === key) {
-                    return updatedNote;
+                    return { ...note, ...{ updated: Date.now(), title, content } };
                 }
                 return note;
-            });
+            }));
 
-            setNotes(updated);
-            store.notes.set(updated);
+            addKeyToUnsavedNotes(key);
         }
-    }, [notes]);
+    }, [notes, addKeyToUnsavedNotes]);
 
     const deleteNote = useCallback((key: string) => {
         if (notes) {
-            //const updatedNotes: Notes = notes.filter(note => note.key !== key);
-            const updatedNotes: Notes = notes.map(note => {
+            setNotes(notes.map(note => {
                 if (note.key === key) {
-                    const deletedNote: Note = { ...note, ...{ deleted: true } }
-                    return deletedNote;
+                    return { ...note, ...{ deleted: true } };
                 }
                 return note;
-            });
-            setNotes(updatedNotes);
-            store.notes.set(updatedNotes);
+            }));
+
+            addKeyToUnsavedNotes(key);
         }
     }, [notes]);
 
     const restoreNote = useCallback((key: string) => {
         if (notes) {
-            const updatedNotes: Notes = notes.map(note => {
+            setNotes(notes.map(note => {
                 if (note.key === key) {
                     const deletedNote: Note = { ...note, ...{ deleted: false } }
                     return deletedNote;
                 }
                 return note;
-            });
-            setNotes(updatedNotes);
-            store.notes.set(updatedNotes);
+            }));
+
+            addKeyToUnsavedNotes(key);
         }
     }, [notes]);
+
+    const deleteNotePermanently = useCallback((key: string) => {
+        api.notes.deleteData(key)
+            .then(r => r.key)
+            .then(key => {
+                removeKeyFromUnsavedNotes(key);
+                if (notes) {
+                    setNotes(notes.filter(note => note.key !== key));
+                }
+            })
+            .catch(err => console.log("Error deleting from server: ", err));
+    }, [notes, removeKeyFromUnsavedNotes]);
+
+    const synchronizeNotes = useCallback(async () => {
+        const synchronize = async () => {
+            const notesToSync: Notes = [];
+            if (unsavedNotes) {
+                unsavedNotes.forEach(key => {
+                    if (notes) {
+                        const note: Note = notes.filter(note => note.key === key)[0];
+                        notesToSync.push(note);
+                    }
+                });
+
+                api.notes.postData(notesToSync)
+                    .then(syncedNotes => {
+                        const syncedKeys = syncedNotes.map(note => note.key);
+                        setUnsavedNotes(unsavedNotes.filter(key => !syncedKeys.includes(key)));
+                    })
+                    .catch(err => console.log("Synchronization error: ", err))
+                    .finally(() => setSyncing(false));
+            }
+        };
+
+        setSyncing(true);
+        synchronize();
+    }, [unsavedNotes, notes]);
 
     const value: ContextProps = {
         editorContent,
@@ -128,7 +219,11 @@ const NotesProvider = (props: { children: React.ReactNode }) => {
         addNote,
         updateNote,
         deleteNote,
+        deleteNotePermanently,
         restoreNote,
+        synchronizeNotes,
+        synchronized: !unsavedNotes || unsavedNotes.length === 0,
+        syncing,
     };
 
     return (
