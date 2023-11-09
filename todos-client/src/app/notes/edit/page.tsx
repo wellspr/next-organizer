@@ -1,3 +1,5 @@
+"use client";
+
 import { Notes } from "@/components";
 
 const EditPage = () => {

@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/Common";
-import { List as NotesList, SyncButton } from "@/components/Notes";
+import { List as NotesList } from "@/components/Notes";
+import { SyncButton } from "@/components/Notes";
 import { useRouter } from "next/navigation";
 
 const Notes = () => {

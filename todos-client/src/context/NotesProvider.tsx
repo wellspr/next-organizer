@@ -159,7 +159,7 @@ const NotesProvider = (props: { children: React.ReactNode }) => {
 
             addKeyToUnsavedNotes(key);
         }
-    }, [notes]);
+    }, [notes, addKeyToUnsavedNotes]);
 
     const restoreNote = useCallback((key: string) => {
         if (notes) {
@@ -173,7 +173,7 @@ const NotesProvider = (props: { children: React.ReactNode }) => {
 
             addKeyToUnsavedNotes(key);
         }
-    }, [notes]);
+    }, [notes, addKeyToUnsavedNotes]);
 
     const deleteNotePermanently = useCallback((key: string) => {
         api.notes.deleteData(key)

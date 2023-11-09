@@ -30,7 +30,7 @@ const NotesList = () => {
         return (
             <div className="notes__list">
                 <div className="notes__list__no-items">
-                    There aren't notes yet!
+                    <p>{"There aren't notes yet!"}</p>
                 </div>
             </div>
         );
@@ -52,7 +52,6 @@ const NotesList = () => {
                                 }}
                             >
                                 {note.title}
-
                             </div>
                             <Button
                                 className="button"

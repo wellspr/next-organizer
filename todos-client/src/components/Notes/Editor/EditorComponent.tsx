@@ -1,6 +1,8 @@
-"use client"
+"use client";
+
 import { useCallback, useEffect, useState } from "react";
-import { DeltaType, Editor, useEditor } from "@wellspr/react-quill-editor";
+import type { DeltaType } from "@wellspr/react-quill-editor";
+import { Editor, useEditor } from "@wellspr/react-quill-editor";
 import { useRouter } from "next/navigation";
 import { useNotes } from "@/context";
 import { Button } from "@/components/Common";
@@ -45,7 +47,14 @@ const EditorComponent = ({ params }: { params?: { key: string } }) => {
                 router.back();
             }
         }
-    }, [title, content]);
+    }, [
+        title, 
+        content,
+        addNote,
+        updateNote,
+        params,
+        router,
+    ]);
 
     return (
         <div className="editor">
