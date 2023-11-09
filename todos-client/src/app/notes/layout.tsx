@@ -1,24 +1,16 @@
-"use client";
-
 import { Header, Footer } from "@/components/Base";
-import dynamic from "next/dynamic";
-//import { Provider } from "@/context";
-
-const NotesProvider = dynamic(() => 
-    import("@/context").then(m => m.Provider.Notes),
-    { ssr: false },
-);
+import { Provider } from "@/context";
 
 export default function Layout(props: {
     children: React.ReactNode,
 }) {
     return (
-        <NotesProvider>
+        <Provider.Notes>
             <Header />
             <main className="main-container">
                 {props.children}
             </main>
             <Footer />
-        </NotesProvider>
+        </Provider.Notes>
     );
 };

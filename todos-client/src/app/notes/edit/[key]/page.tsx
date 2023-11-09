@@ -1,9 +1,9 @@
 import { Notes } from "@/components";
 
-const Editor = ({ params }: { params: { key: string } }) => {
+const Editor = () => {
 
     return (
-        <Notes.Editor readOnly={false} params={params} />
+        <Notes.Editor readOnly={false} />
     );
 };
 

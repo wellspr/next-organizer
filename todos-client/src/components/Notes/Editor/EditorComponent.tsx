@@ -3,18 +3,29 @@
 import { useCallback, useEffect, useState } from "react";
 import type { DeltaType } from "@wellspr/react-quill-editor";
 import { Editor, useEditor } from "@wellspr/react-quill-editor";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useNotes } from "@/context";
 import { Button } from "@/components/Common";
 import EditorToolbar from "./EditorToolbar";
 import { store } from "@/store";
 
-const EditorComponent = ({ params }: { params?: { key: string } }) => {
+const EditorComponent = () => {
 
     const router = useRouter();
+    const routeParams = useParams();
+    const [params, setParams] = useState<{ key: string }>();
     const [title, setTitle] = useState<string>("");
     const { content, quill } = useEditor();
     const { addNote, updateNote, deleteNote } = useNotes();
+
+    useEffect(() => {
+        if (routeParams && routeParams.key) {
+            if (typeof (routeParams.key) === "string") {
+                const key: string = routeParams.key;
+                setParams({ key });
+            }
+        }
+    }, [routeParams]);
 
     useEffect(() => {
         if (params) {
@@ -48,7 +59,7 @@ const EditorComponent = ({ params }: { params?: { key: string } }) => {
             }
         }
     }, [
-        title, 
+        title,
         content,
         addNote,
         updateNote,

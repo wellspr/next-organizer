@@ -12,11 +12,11 @@ const EditorProvider = dynamic(() =>
     { ssr: false },
 );
 
-const NotesEditor = (props: {readOnly: boolean, params?: { key: string }}) => {
+const NotesEditor = (props: {readOnly: boolean}) => {
 
     return (
         <EditorProvider readOnly={props.readOnly}>
-            <EditorComponent params={props.params} />
+            <EditorComponent />
         </EditorProvider>
     );
 };

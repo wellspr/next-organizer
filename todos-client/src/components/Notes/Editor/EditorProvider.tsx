@@ -1,4 +1,3 @@
-"use client";
 import "@wellspr/react-quill-editor/style.css";
 import { Config } from "@wellspr/react-quill-editor";
 import dynamic from "next/dynamic";
