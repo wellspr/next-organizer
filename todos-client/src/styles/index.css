@@ -1,3 +1,28 @@
+@keyframes spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.spinning {
+  animation-name: spinning;
+  animation-duration: 0.8s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
 #toolbar {
   border: 2px solid burlywood !important;
 }
@@ -18,32 +43,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
-  border-right: 2px solid burlywood;
-  padding: 0 5px;
-}
-
-#toolbar {
-  border: 2px solid burlywood !important;
-}
-
-.toolbar {
-  display: flex;
-}
-
-.toolbar__group {
-  display: flex;
-}
-
-.wrap {
-  flex-wrap: wrap;
-}
-
-.stacked {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   border-right: 2px solid burlywood;
   padding: 0 5px;
 }
