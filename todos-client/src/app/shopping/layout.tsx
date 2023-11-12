@@ -1,9 +1,16 @@
-export default function Layout (props: {
+import { Provider } from "@/context";
+import { Footer, Header } from "@/components/Base";
+
+export default function Layout(props: {
     children: React.ReactNode,
 }) {
     return (
-        <div className="shopping">
-            {props.children}
-        </div>
+        <Provider.Shopping>
+            <Header />
+            <main className="main-container">
+                {props.children}
+            </main>
+            <Footer />
+        </Provider.Shopping>
     );
 }

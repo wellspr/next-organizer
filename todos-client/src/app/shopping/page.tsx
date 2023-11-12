@@ -1,5 +1,12 @@
-export default function Page () {
+import { ListComponent, NameInput } from "@/components/Shopping/List";
+
+const Page = () => {
     return (
-        <p>New Shopping page</p>
+        <div className="shopping">
+            <NameInput />
+            <ListComponent />
+        </div>
     );
-}
+};
+
+export default Page;

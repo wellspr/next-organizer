@@ -18,13 +18,13 @@ const TodosInput = () => {
                 setName("");
             }}
         >
-            <div className="form__group form__group--todos">
+            <div className="form__group form__group__todos">
                 <label htmlFor="todo-input" className="form__group__label "></label>
                 <input
                     ref={inputRef}
                     id="todo-input"
                     type="text"
-                    className="form__group__input form__group__input--todos"
+                    className="form__group__input form__group__input__todos"
                     value={name}
                     onChange={e => setName(e.target.value)}
                 />

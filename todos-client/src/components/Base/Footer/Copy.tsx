@@ -9,7 +9,7 @@ const Copy = (props: {
                 "copy"
             }
         >
-            <p>&copy; 2023 - Next Organizer - Todos - Notes</p>
+            <p>&copy; 2023 - Next Organizer - Todos - Notes - Shopping</p>
         </div>
     );
 };
