@@ -1,5 +1,5 @@
 import localforage from "localforage";
-import { Notes, Todos } from "@/types";
+import { List as ShoppingList, Notes, Todos } from "@/types";
 
 /* Todos */
 export const localTodosDB = localforage.createInstance({
@@ -71,9 +71,43 @@ const unsavedNotes = {
     set: setLocalUnsavedNotes,
 }
 
+/* Shopping */
+export const localShoppingListDB = localforage.createInstance({
+    name: "localShoppingListDB",
+});
+
+const getLocalShoppingList: () => Promise<ShoppingList[] | null> = async () => {
+    const response: (ShoppingList[] | null) = await localShoppingListDB.getItem("shopping_list");
+    return response;
+};
+
+const setLocalShoppingList = async (lists: ShoppingList[]) => {
+    const response: ShoppingList[] = await localShoppingListDB.setItem("shopping_list", lists);
+    return response;
+};
+
+const getLocalUnsavedShoppingList = async () => {
+    const unsavedShopping: (string[] | null) = await localShoppingListDB.getItem("unsaved_shopping_list");
+    return unsavedShopping;
+};
+
+const setLocalUnsavedShoppingList = async (unsavedList: string[]) => {
+    const response = await localShoppingListDB.setItem("unsaved_shopping_list", unsavedList);
+    return response;
+};
+
+const shoppingList = {
+    get: getLocalShoppingList,
+    set: setLocalShoppingList,
+};
+
+const unsavedShoppingList = {
+    get: getLocalUnsavedShoppingList,
+    set: setLocalUnsavedShoppingList,
+}
+
 export const store = {
-    todos,
-    unsavedTodos,
-    notes,
-    unsavedNotes,
+    todos, unsavedTodos,
+    notes, unsavedNotes,
+    shoppingList, unsavedShoppingList,
 };

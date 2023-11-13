@@ -46,6 +46,29 @@ const notesDB = () => {
         delete: deleteNote,
         fetch: fetchNotes,
     }
+};
+
+const shoppingListDB = () => {
+
+    const db = deta.Base("shopping_db");
+
+    const fetchLists = async () => {
+        return await db.fetch();
+    };
+
+    const saveLists = async (data) => {
+        return await db.putMany(data);
+    };
+
+    const deleteList = async (key) => {
+        return await db.delete(key);
+    };
+
+    return {
+        save: saveLists,
+        delete: deleteList,
+        fetch: fetchLists,
+    }
 }
 
-export { todosDB, notesDB };
+export { todosDB, notesDB, shoppingListDB };

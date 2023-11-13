@@ -13,16 +13,12 @@ const ItemInput = (props: { listKey: string }) => {
     
     const { addItem } = useShopping();
 
-/*     useEffect(() => {
-        console.log(itemName, itemQuantity, itemPrice);
-    }, [itemName, itemQuantity, itemPrice]); */
-
     return (
         <form 
             className="form shopping__form"
             onSubmit={e => {
                 e.preventDefault();
-                addItem(props.listKey, itemName, itemQuantity, itemPrice);
+                addItem(props.listKey, {name: itemName, quantity: itemQuantity, price: itemPrice});
             }}
             >
             <div className="shopping__form__group shopping__form__group__item__name">

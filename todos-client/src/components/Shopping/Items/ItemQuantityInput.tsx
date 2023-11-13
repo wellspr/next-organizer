@@ -14,13 +14,13 @@ const ItemQuantityInput = (props: {
 
     const addQuantity = useCallback(() => {
         setItemQuantity(String(Number(itemQuantity) + 1));
-    }, [itemQuantity]);
+    }, [itemQuantity, setItemQuantity]);
 
     const subtractQuantity = useCallback(() => {
         if (Number(itemQuantity) > 0) {
             setItemQuantity(String(Number(itemQuantity) - 1));
         }
-    }, [itemQuantity]);
+    }, [itemQuantity, setItemQuantity]);
 
     const onQuantityKeyDown = useCallback((e: KeyboardEvent) => {
         switch (e.code) {

@@ -259,6 +259,11 @@ body {
   margin-right: 0.4rem;
 }
 
+.shopping {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
 .shopping__form {
   display: flex;
   align-items: center;
@@ -333,6 +338,130 @@ body {
 .shopping__form__group__button:hover {
   background-color: rgba(176, 196, 222, 0.75);
 }
+.shopping__list__header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.shopping__list__header__button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: blueviolet;
+}
+.shopping__list__header__button__icon {
+  width: 3rem;
+  height: 3rem;
+}
+.shopping__list__header__button__sync {
+  cursor: pointer;
+  color: blueviolet;
+}
+.shopping__list__header__button__sync--synced:disabled {
+  cursor: default;
+  color: green;
+}
+.shopping__list__header__list-name {
+  font-size: 1.6rem;
+  flex-grow: 1;
+}
+.shopping__list__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: aliceblue;
+}
+.shopping__list__empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  padding: 1.8rem 0;
+  color: aliceblue;
+}
+.shopping__list__item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem;
+  margin: 0.3rem;
+  font-size: 1.4rem;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(176, 196, 222, 0.75);
+}
+.shopping__list__item:hover {
+  background-color: rgba(176, 196, 222, 0.45);
+}
+.shopping__list__item--finished {
+  background-color: aquamarine;
+}
+.shopping__list__item--finished:hover {
+  background-color: rgba(127, 255, 212, 0.75);
+}
+.shopping__list__item--deleted {
+  background-color: crimson;
+  color: antiquewhite;
+}
+.shopping__list__item--deleted:hover {
+  background-color: rgba(220, 20, 60, 0.75);
+}
+.shopping__list__item__value {
+  display: none;
+}
+.shopping__list__item__value--show {
+  flex-grow: 1;
+  display: flex;
+}
+.shopping__list__item__input {
+  display: none;
+}
+.shopping__list__item__input--show {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+}
+.shopping__list__item__input--show input {
+  font-size: 1.4rem;
+  font-family: sans-serif;
+  border: none;
+  flex-grow: 1;
+}
+.shopping__list__item__name {
+  flex-grow: 1;
+  cursor: pointer;
+}
+.shopping__list__item__buttons .button__control {
+  cursor: pointer;
+  margin-right: 0.8rem;
+}
+.shopping__list__item__buttons .button__update-todo {
+  margin-left: 1rem;
+}
+.shopping__list__item__buttons .button__delete-todo {
+  margin-right: 0;
+}
+.shopping__list__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.shopping__list__items__item {
+  display: flex;
+  font-size: 1.4rem;
+}
+.shopping__list__items__item__name {
+  min-width: 60%;
+}
+.shopping__list__items__item__quantity {
+  width: 20%;
+}
+.shopping__list__items__item__price {
+  width: 20%;
+}
 
 .form {
   flex-grow: 1;
@@ -384,15 +513,13 @@ body {
   background-color: rgba(176, 196, 222, 0.75);
 }
 
-.list__loading,
-.shopping__list__loading {
+.list__loading {
   display: flex;
   justify-content: center;
   align-items: center;
   color: aliceblue;
 }
-.list__empty,
-.shopping__list__empty {
+.list__empty {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -400,8 +527,7 @@ body {
   padding: 1.8rem 0;
   color: aliceblue;
 }
-.list__item,
-.shopping__list__item {
+.list__item {
   display: flex;
   justify-content: space-between;
   padding: 0.8rem;
@@ -412,68 +538,54 @@ body {
   color: rgba(0, 0, 0, 0.75);
   background-color: cornsilk;
 }
-.list__item:hover,
-.shopping__list__item:hover {
+.list__item:hover {
   background-color: rgba(255, 248, 220, 0.75);
 }
-.list__item--finished,
-.shopping__list__item--finished {
+.list__item--finished {
   background-color: aquamarine;
 }
-.list__item--finished:hover,
-.shopping__list__item--finished:hover {
+.list__item--finished:hover {
   background-color: rgba(127, 255, 212, 0.75);
 }
-.list__item--deleted,
-.shopping__list__item--deleted {
+.list__item--deleted {
   background-color: crimson;
   color: antiquewhite;
 }
-.list__item--deleted:hover,
-.shopping__list__item--deleted:hover {
+.list__item--deleted:hover {
   background-color: rgba(220, 20, 60, 0.75);
 }
-.list__item__value,
-.shopping__list__item__value {
+.list__item__value {
   display: none;
 }
-.list__item__value--show,
-.shopping__list__item__value--show {
+.list__item__value--show {
   flex-grow: 1;
   display: flex;
 }
-.list__item__input,
-.shopping__list__item__input {
+.list__item__input {
   display: none;
 }
-.list__item__input--show,
-.shopping__list__item__input--show {
+.list__item__input--show {
   flex-grow: 1;
   display: flex;
   justify-content: space-between;
 }
-.list__item__input--show input,
-.shopping__list__item__input--show input {
+.list__item__input--show input {
   font-size: 1.4rem;
   font-family: sans-serif;
   border: none;
   flex-grow: 1;
 }
-.list__item__name,
-.shopping__list__item__name {
+.list__item__name {
   flex-grow: 1;
 }
-.list__item__buttons .button__control,
-.shopping__list__item__buttons .button__control {
+.list__item__buttons .button__control {
   cursor: pointer;
   margin-right: 0.8rem;
 }
-.list__item__buttons .button__update-todo,
-.shopping__list__item__buttons .button__update-todo {
+.list__item__buttons .button__update-todo {
   margin-left: 1rem;
 }
-.list__item__buttons .button__delete-todo,
-.shopping__list__item__buttons .button__delete-todo {
+.list__item__buttons .button__delete-todo {
   margin-right: 0;
 }
 

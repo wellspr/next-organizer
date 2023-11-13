@@ -1,34 +1,29 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import {
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useState
+} from "react";
 
-type Item = {
-    key: string,
-    name: string,
-    quantity: string,
-    price: string,
-    created: number,
-    updated: number | null,
-    deleted: boolean,
-};
-
-type List = {
-    key: string,
-    name: string,
-    created: number,
-    updated: number | null,
-    deleted: boolean,
-    items: Item[],
-};
-
-type Lists = List[];
+import { store } from "@/store";
+import { api } from "@/db";
+import { Item, List, Lists } from "@/types";
 
 interface ContextProps {
-    lists: Lists,
+    lists: Lists | undefined,
     list: List | undefined,
     createList: (name: string) => void,
-    selectList: (key: string) => void
-    addItem: (listKey: string, name: string, price: string, quantity: string) => void
+    selectList: (key: string) => void,
+    addItem: (
+        listKey: string,
+        data: { name: string, quantity: string, price: string }
+    ) => void,
+    synchronizeLists: () => void,
+    synchronized: boolean;
+    syncing: boolean,
 }
 
 const defaultValue: ContextProps = {
@@ -37,22 +32,81 @@ const defaultValue: ContextProps = {
     createList: () => { },
     selectList: () => { },
     addItem: () => { },
+    synchronizeLists: () => { },
+    synchronized: false,
+    syncing: false,
 };
 
 const Context = createContext<ContextProps>(defaultValue);
 
 const ShoppingProvider = (props: { children: React.ReactNode }) => {
 
-    const [lists, setLists] = useState<Lists>([]);
+    const [lists, setLists] = useState<Lists | undefined>(undefined);
     const [list, setList] = useState<List | undefined>(undefined);
+    const [unsavedItems, setUnsavedItems] = useState<string[]>();
+    const [syncing, setSyncing] = useState<boolean>(false);
 
     useEffect(() => {
-        console.log("All lists: ", lists);
+        store.unsavedShoppingList.get()
+            .then(items => {
+                if (items && items.length > 0) {
+
+                    setUnsavedItems(items);
+
+                    store.shoppingList.get()
+                        .then(localData => {
+                            if (localData) {
+                                setLists(localData);
+                            } else {
+                                setLists([]);
+                            }
+                        });
+
+                } else {
+
+                    setUnsavedItems([]);
+
+                    api.shopping.fetchData()
+                        .then(lists => {
+                            if (lists && lists.length > 0) {
+                                setLists(lists);
+                                store.shoppingList.set(lists);
+                            } else {
+                                setLists([]);
+                            }
+                        });
+                }
+            })
+    }, []);
+
+    useEffect(() => {
+        if (lists) {
+            store.shoppingList.set(lists)
+                .then(lists => console.log("LISTS: ", lists));
+        }
     }, [lists]);
 
     useEffect(() => {
-        console.log("Current list: ", list);
-    }, [list]);
+        if (unsavedItems) {
+            store.unsavedShoppingList.set(unsavedItems)
+                .then(unsavedItems => console.log("UNSAVED: ", unsavedItems));
+        }
+    }, [unsavedItems]);
+
+    const addKeyToUnsavedItems = useCallback((key: string) => {
+        if (unsavedItems) {
+            const unsavedItemsSet = new Set([...unsavedItems, key]);
+            const updatedItemsList: string[] = [];
+            unsavedItemsSet.forEach(val => updatedItemsList.push(val));
+            setUnsavedItems(updatedItemsList);
+        }
+    }, [unsavedItems]);
+
+    const removeKeyFromUnsavedItems = useCallback((key: string) => {
+        if (unsavedItems) {
+            setUnsavedItems(unsavedItems.filter(item => item !== key));
+        }
+    }, [unsavedItems]);
 
     const createList = useCallback((name: string) => {
         const key = String(Math.floor(Math.random() * 999999999999));
@@ -68,7 +122,7 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
             deleted,
             items,
             name,
-        }
+        };
 
         if (lists) {
             setLists([newList, ...lists]);
@@ -76,7 +130,9 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
             setLists([newList]);
         }
 
-    }, [lists]); /* append new list to 'lists' */
+        addKeyToUnsavedItems(key);
+
+    }, [lists, addKeyToUnsavedItems]); /* append new list to 'lists' */
 
     const selectList = useCallback((key: string) => {
         if (lists) {
@@ -88,20 +144,41 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
         if (lists) {
             setLists(lists.map(list => {
                 if (list.key === key) {
-                    return updatedList;
+                    return { ...updatedList, updated: Date.now() };
                 }
                 return list;
             }));
+
+            addKeyToUnsavedItems(key);
         }
-    }, [lists]); /* update specific list inside 'lists' */
+    }, [lists, addKeyToUnsavedItems]); /* update specific list inside 'lists' */
 
     const deleteList = useCallback((key: string) => {
         if (lists) {
-            setLists(lists.filter(list => list.key !== key));
-        }
-    }, [lists]); /* removelist from 'lists' */
+            setLists(lists.map(list => {
+                if (list.key === key) {
+                    return { ...list, deleted: true };
+                }
+                return list;
+            }));
 
-    const addItem = useCallback((listKey: string, name: string, price: string, quantity: string) => {
+            addKeyToUnsavedItems(key);
+        }
+    }, [lists, addKeyToUnsavedItems]); /* removelist from 'lists' */
+
+    const deleteListPermanently = useCallback((key: string) => {
+        api.shopping.deleteData(key)
+            .then(r => r.key)
+            .then(key => {
+                removeKeyFromUnsavedItems(key);
+                if (lists) {
+                    setLists(lists.filter(list => list.key !== key));
+                }
+            })
+            .catch(err => console.log("Error deleting from server: ", err));
+    }, [lists, removeKeyFromUnsavedItems]);
+
+    const addItem = useCallback((listKey: string, data: { name: string, price: string, quantity: string }) => {
         const key = String(Math.floor(Math.random() * 999999999999));
         const created = Date.now();
         const updated = null;
@@ -112,25 +189,53 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
             created,
             deleted,
             updated,
-            name,
-            price,
-            quantity
+            name: data.name,
+            price: data.price,
+            quantity: data.quantity,
         };
 
-        const updatedLists = lists.map(list => {
-            if (list.key === listKey) {
-                const updatedList = { 
-                    ...list, 
-                    ...{ items: [ newItem, ...list.items ] }
-                };
-                setList(updatedList);
-                return updatedList;
-            }
-            return list;
-        });
+        if (lists) {
+            const updatedLists = lists.map(list => {
+                if (list.key === listKey) {
+                    const updatedList = {
+                        ...list,
+                        ...{ items: [newItem, ...list.items] }
+                    };
+                    setList(updatedList);
+                    return updatedList;
+                }
+                return list;
+            });
 
-        setLists(updatedLists);
-    }, [list, lists]);
+            setLists(updatedLists);
+        }
+
+    }, [lists]);
+
+    const synchronizeLists = useCallback(async () => {
+        const synchronize = async () => {
+            const itemsToSync: Lists = [];
+            if (unsavedItems) {
+                unsavedItems.forEach(key => {
+                    if (lists) {
+                        const list: List = lists.filter(list => list.key === key)[0];
+                        itemsToSync.push(list);
+                    }
+                });
+
+                api.shopping.postData(itemsToSync)
+                    .then(syncedlists => {
+                        const syncedKeys = syncedlists.map(item => item.key);
+                        setUnsavedItems(unsavedItems.filter(key => !syncedKeys.includes(key)));
+                    })
+                    .catch(err => console.log("Synchronization error: ", err))
+                    .finally(() => setSyncing(false));
+            }
+        };
+
+        setSyncing(true);
+        synchronize();
+    }, [unsavedItems, lists]);
 
     const value: ContextProps = {
         lists,
@@ -138,6 +243,9 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
         createList,
         selectList,
         addItem,
+        synchronizeLists,
+        synchronized: !unsavedItems || unsavedItems.length === 0,
+        syncing,
     };
 
     return <Context.Provider value={value}>

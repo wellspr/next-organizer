@@ -275,6 +275,11 @@ body {
 }
 
 .shopping {
+
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+
     &__form {
         display: flex;
         align-items: center;
@@ -367,6 +372,167 @@ body {
             }
         }
     }
+
+    &__list {
+        &__header {
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+
+            &__button {
+                background-color: transparent;
+                border: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                color: blueviolet;
+
+                &__icon {
+                    width: 3rem;
+                    height: 3rem;
+                }
+
+                &__sync {
+                    cursor: pointer;
+                    color: blueviolet;
+
+                    &--synced {
+                        &:disabled {
+                            cursor: default;
+                            color: green;
+                        }
+                    }
+                }
+
+            }
+
+            &__list-name {
+                font-size: 1.6rem;
+                flex-grow: 1;
+            }
+        }
+
+        &__loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: aliceblue;
+        }
+
+        &__empty {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+    
+            font-size: 1.8rem;
+            padding: 1.8rem 0;
+            color: aliceblue;
+        }
+
+        &__item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem;
+            margin: 0.3rem;
+            font-size: 1.4rem;
+            font-family: sans-serif;
+            font-weight: bold;
+            color: rgba(black, 0.75);
+            background-color: rgba(lightsteelblue, 0.75);
+    
+            &:hover {
+                background-color: rgba(lightsteelblue, 0.45);
+            }
+    
+            &--finished {
+                background-color: aquamarine;
+                &:hover {
+                    background-color: rgba(aquamarine, 0.75);
+                }
+            }
+    
+            &--deleted {
+                background-color: crimson;
+                color: antiquewhite;
+    
+                &:hover {
+                    background-color: rgba(crimson, 0.75);
+                }
+            }
+    
+            &__value {
+                display: none;
+    
+                &--show {
+                    flex-grow: 1;
+                    display: flex;
+                }
+            }
+    
+            &__input {
+                display: none;
+    
+                &--show {
+                    flex-grow: 1;
+                    display: flex;
+                    justify-content: space-between;
+    
+                    input {
+                        font-size: 1.4rem;
+                        font-family: sans-serif;
+                        border: none;
+                        flex-grow: 1;
+                    }
+                }
+            }
+    
+            &__name {
+                flex-grow: 1;
+                cursor: pointer;
+            }
+    
+            &__buttons {
+                .button {
+                    &__control {
+                        cursor: pointer;
+                        margin-right: 0.8rem;
+                    }
+    
+                    &__update-todo {
+                        margin-left: 1rem;
+                    }
+    
+                    &__delete-todo {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+
+        &__items {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+
+            &__item {
+                display: flex;
+                font-size: 1.4rem;
+
+                &__name {
+                    min-width: 60%;
+                }
+
+                &__quantity {
+                    width: 20%;
+                }
+
+                &__price {
+                    width: 20%;
+                }
+            }
+        }
+    }
 }
 
 .form {
@@ -433,8 +599,7 @@ body {
     }
 }
 
-.list,
-.shopping__list {
+.list {
     &__loading {
         display: flex;
         justify-content: center;
