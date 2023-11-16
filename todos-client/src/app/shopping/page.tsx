@@ -1,10 +1,10 @@
-import { ListComponent, NameInput } from "@/components/Shopping/List";
+import { ListsComponent, NameInput } from "@/components/Shopping/List";
 
 const Page = () => {
     return (
         <div className="shopping">
             <NameInput />
-            <ListComponent />
+            <ListsComponent />
         </div>
     );
 };

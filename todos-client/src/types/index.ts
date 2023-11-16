@@ -50,3 +50,9 @@ export type List = {
 };
 
 export type Lists = List[];
+
+export type listUpdates = {
+    name?: string,
+    deleted?: boolean,
+    items?: Item[],
+};

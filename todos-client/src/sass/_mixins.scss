@@ -1,0 +1,18 @@
+@mixin default_loaders($color) {
+    &__loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $color;
+    }
+
+    &__empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 1.8rem;
+        padding: 1.8rem 0;
+        color: $color;
+    }
+}

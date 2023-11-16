@@ -10,17 +10,21 @@ import {
 
 import { store } from "@/store";
 import { api } from "@/db";
-import { Item, List, Lists } from "@/types";
+import { Item, List, Lists, listUpdates } from "@/types";
 
 interface ContextProps {
     lists: Lists | undefined,
     list: List | undefined,
-    createList: (name: string) => void,
+    createList: ((name: string) => Promise<string>),
     selectList: (key: string) => void,
+    updateList: (key: string, updates: listUpdates) => void,
+    deleteList: (key: string) => void,
+    deleteListPermanently: (key: string) => void,
     addItem: (
         listKey: string,
         data: { name: string, quantity: string, price: string }
     ) => void,
+    removeItem: (listKey: string, itemKey: string) => void,
     synchronizeLists: () => void,
     synchronized: boolean;
     syncing: boolean,
@@ -29,9 +33,13 @@ interface ContextProps {
 const defaultValue: ContextProps = {
     lists: [],
     list: undefined,
-    createList: () => { },
+    createList: async () => { return "" },
     selectList: () => { },
+    updateList: () => { },
+    deleteList: () => { },
+    deleteListPermanently: () => { },
     addItem: () => { },
+    removeItem: () => { },
     synchronizeLists: () => { },
     synchronized: false,
     syncing: false,
@@ -108,7 +116,7 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
         }
     }, [unsavedItems]);
 
-    const createList = useCallback((name: string) => {
+    const createList = useCallback(async (name: string) => {
         const key = String(Math.floor(Math.random() * 999999999999));
         const created = Date.now();
         const updated = null;
@@ -132,6 +140,8 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
 
         addKeyToUnsavedItems(key);
 
+        return key;
+
     }, [lists, addKeyToUnsavedItems]); /* append new list to 'lists' */
 
     const selectList = useCallback((key: string) => {
@@ -140,11 +150,16 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
         }
     }, [lists]); /* select list from 'lists' using setList */
 
-    const updateList = useCallback((key: string, updatedList: List) => {
+    const updateList = useCallback((key: string, updates: listUpdates) => {
         if (lists) {
             setLists(lists.map(list => {
                 if (list.key === key) {
-                    return { ...updatedList, updated: Date.now() };
+                    return {
+                        ...list,
+                        ...updates,
+                        updated: Date.now(),
+
+                    };
                 }
                 return list;
             }));
@@ -208,8 +223,31 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
             });
 
             setLists(updatedLists);
+
+            addKeyToUnsavedItems(listKey);
         }
 
+    }, [lists]);
+
+    const removeItem = useCallback((listKey: string, itemKey: string) => {
+        console.log(listKey, itemKey);
+        if (lists) {
+            setLists(lists.map(list => {
+                if (list.key === listKey) {
+                    return {
+                        ...list,
+                        updated: Date.now(),
+                        items: list.items.filter(item => {
+                            return item.key !== itemKey;
+                        }),
+                    };
+                }
+
+                return list;
+            }));
+
+            addKeyToUnsavedItems(listKey);
+        }
     }, [lists]);
 
     const synchronizeLists = useCallback(async () => {
@@ -242,7 +280,11 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
         list,
         createList,
         selectList,
+        updateList,
+        deleteList,
+        deleteListPermanently,
         addItem,
+        removeItem,
         synchronizeLists,
         synchronized: !unsavedItems || unsavedItems.length === 0,
         syncing,

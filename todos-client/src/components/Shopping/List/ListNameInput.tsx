@@ -2,10 +2,12 @@
 
 import { Button } from "@/components/Common";
 import { useShopping } from "@/context";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const ListNameInput = () => {
 
+    const router = useRouter();
     const { createList } = useShopping();
     const [listName, setListName] = useState<string>("");
 
@@ -14,8 +16,11 @@ const ListNameInput = () => {
             className="shopping__form"
             onSubmit={e => {
                 e.preventDefault();
-                createList(listName);
-                setListName("");
+                createList(listName)
+                    .then(key => {
+                        setListName("");
+                        router.push(`/shopping/list/${key}`);
+                    })
             }}
         >
 

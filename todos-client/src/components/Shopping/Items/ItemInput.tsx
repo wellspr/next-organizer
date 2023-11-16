@@ -1,26 +1,45 @@
 "use client";
 
-import { useState } from "react";
-import { NameInput, PriceInput, QuantityInput } from "."; 
+import { useCallback, useState } from "react";
+import { NameInput, PriceInput, QuantityInput } from ".";
 import { useShopping } from "@/context";
 import { Button } from "@/components/Common";
+import { useItems } from "./ItemsProvider";
 
 const ItemInput = (props: { listKey: string }) => {
 
     const [itemName, setItemName] = useState<string>("");
     const [itemQuantity, setItemQuantity] = useState<string>("0");
     const [itemPrice, setItemPrice] = useState<string>("0");
-    
+
     const { addItem } = useShopping();
+    const { ref } = useItems();
+
+    const onSubmit = useCallback(() => {
+        if (itemName && itemQuantity && itemPrice) {
+            addItem(props.listKey, { name: itemName, quantity: itemQuantity, price: itemPrice });
+            setItemName("");
+            setItemQuantity("0");
+            setItemPrice("0");
+            if (ref && ref.current) {
+                ref.current.focus();
+            }
+        }
+    }, [
+        itemName,
+        itemQuantity,
+        itemPrice,
+        ref && ref.current,
+    ]);
 
     return (
-        <form 
+        <form
             className="form shopping__form"
             onSubmit={e => {
                 e.preventDefault();
-                addItem(props.listKey, {name: itemName, quantity: itemQuantity, price: itemPrice});
+                onSubmit();
             }}
-            >
+        >
             <div className="shopping__form__group shopping__form__group__item__name">
                 <NameInput
                     itemName={itemName}
