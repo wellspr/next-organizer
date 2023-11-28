@@ -55,7 +55,7 @@ const ListsComponent = () => {
                             </div>
                             <div className="shopping__lists__item__buttons">
                                 <Button
-                                    className="button"
+                                    className="button button__delete-list"
                                     label="Delete"
                                     onClick={() => deleteList(list.key)}
                                 />

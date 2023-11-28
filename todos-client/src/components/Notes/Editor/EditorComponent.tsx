@@ -90,7 +90,7 @@ const EditorComponent = () => {
                     </div>
                 </div>
 
-                <Editor height={200}>
+                <Editor height={window.innerHeight - 200}>
                     <EditorToolbar />
                 </Editor>
                 <div className="editor__buttons">
