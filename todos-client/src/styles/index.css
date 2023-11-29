@@ -460,10 +460,13 @@ body {
 }
 .shopping__list__header__list-name {
   flex-grow: 1;
-}
-.shopping__list__header__list-name__value {
   font-size: 1.6rem;
   color: blueviolet;
+  font-family: sans-serif;
+}
+.shopping__list__header__list-name__value {
+  border-top: 2px transparent solid;
+  border-bottom: 2px transparent solid;
 }
 .shopping__list__header__list-name__value--hidden {
   display: none;
@@ -475,6 +478,12 @@ body {
   display: flex;
   font-size: 1.6rem;
   color: blueviolet;
+  font-family: sans-serif;
+  width: 100%;
+  border: none;
+  border-top: 2px transparent solid;
+  border-bottom: 2px blueviolet solid;
+  outline: none;
 }
 .shopping__list__items {
   display: flex;

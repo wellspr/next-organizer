@@ -29,7 +29,9 @@ const ItemInput = (props: { listKey: string }) => {
         itemName,
         itemQuantity,
         itemPrice,
-        ref && ref.current,
+        addItem,
+        props.listKey,
+        ref,
     ]);
 
     return (

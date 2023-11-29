@@ -56,3 +56,9 @@ export type listUpdates = {
     deleted?: boolean,
     items?: Item[],
 };
+
+export type itemUpdates = {
+    name?: string;
+    quantity?: string;
+    price?: string;
+}

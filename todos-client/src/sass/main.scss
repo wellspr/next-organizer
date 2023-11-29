@@ -495,24 +495,33 @@ body {
 
             &__list-name {
                 flex-grow: 1;
-
+                font-size: 1.6rem;
+                color: blueviolet;
+                font-family: sans-serif;
+                
                 &__value {
-                    font-size: 1.6rem;
-                    color: blueviolet;
-
+                    border-top: 2px transparent solid;
+                    border-bottom: 2px transparent solid;
                     &--hidden {
                         display: none;
                     }
                 }
-
+                
                 &__updateInput {
                     display: none;
-
+                    
                     &--show {
                         display: flex;
                         font-size: 1.6rem;
                         color: blueviolet;
-                        //border: none;
+                        font-family: sans-serif;
+                        width: 100%;
+                        border: none;
+                        border-top: 2px transparent solid;
+                        border-bottom: 2px blueviolet solid;
+                        outline: none;
+                        //outline-color: blueviolet;
+                        //outline-style: outset;
                     }
                 }
             }

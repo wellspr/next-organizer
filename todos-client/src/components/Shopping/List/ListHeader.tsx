@@ -1,7 +1,7 @@
 "use client";
 
 import { Shopping } from "@/components";
-import { Button } from "@/components/Common";
+import { Button, Editable } from "@/components/Common";
 import { useShopping } from "@/context";
 import Icon from "@/icons";
 import { List } from "@/types";
@@ -13,13 +13,13 @@ const ListHeader = () => {
     const router = useRouter();
     const params = useParams();
     const { lists, updateList } = useShopping();
-    const [listName, setListName] = useState<string>();
-    const updateInputRef = useRef<HTMLInputElement>(null);
+    const [listName, setListName] = useState<string>("");
+    //const updateInputRef = useRef<HTMLInputElement>(null);
     const [updatedListName, setUpdatedListName] = useState<string>("");
 
     const [showUpdateInput, setShowUpdateInput] = useState<boolean>(false);
 
-    useEffect(() => {
+    const setInitialUpdates = useCallback(() => {
         const key = String(params.key);
 
         if (lists) {
@@ -31,12 +31,22 @@ const ListHeader = () => {
         }
     }, [lists, params]);
 
+    useEffect(() => {
+        setInitialUpdates();
+    }, [setInitialUpdates]);
+
+    const onSubmit = useCallback(() => {
+        const key = String(params.key);
+        updateList(key, { name: updatedListName });
+    }, [params, updatedListName, updateList]);
+
+    /* 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const key = String(params.key);
         updateList(key, { name: updatedListName });
         setShowUpdateInput(false);
-    }, [params, updatedListName]);
+    }, [params, updatedListName, updateList]);
 
     const onClickListName = useCallback(() => {
         setShowUpdateInput(true);
@@ -53,26 +63,27 @@ const ListHeader = () => {
         if (updateInputRef && updateInputRef.current) {
             updateInputRef.current.focus();
         }
-    }, [showUpdateInput, updateInputRef && updateInputRef.current]);
+    }, [updateInputRef]);
+
+    const onClick = useCallback((event: MouseEvent) => {    
+        if (showUpdateInput) {
+            if (updateInputRef.current) {
+                if (updateInputRef.current.contains(event.target as Node)) {
+                    return;
+                }
+            }
+            setShowUpdateInput(false);
+        }
+    }, [showUpdateInput]);
 
     useEffect(() => {
-        const onClick = (event: MouseEvent) => {    
-            if (showUpdateInput) {
-                if (updateInputRef.current) {
-                    if (updateInputRef.current.contains(event.target as Node)) {
-                        return;
-                    }
-                }
-                setShowUpdateInput(false);
-            }
-        };
-
         document.addEventListener("click", onClick);
 
         return () => {
             document.removeEventListener("click", onClick);
         };
-    }, [showUpdateInput]);
+    }, [onClick]);
+ */
 
     return (
         <div className="shopping__list__header">
@@ -84,6 +95,18 @@ const ListHeader = () => {
             </Button>
 
             <div className="shopping__list__header__list-name">
+
+                <Editable
+                    baseClassName="shopping__list__header__list-name"
+                    onUpdateSubmit={onSubmit}
+                    showUpdateInput={showUpdateInput}
+                    setShowUpdateInput={setShowUpdateInput}
+                    updatedValue={updatedListName}
+                    setUpdatedValue={setUpdatedListName}
+                    value={listName}
+                />
+                <>
+                    {/* 
                 <div
                     className={
                         showUpdateInput ?
@@ -109,6 +132,8 @@ const ListHeader = () => {
                         autoFocus={true}
                     />
                 </form>
+ */}
+                </>
             </div>
 
             <Shopping.List.SyncButton className="shopping__list__header__button" />

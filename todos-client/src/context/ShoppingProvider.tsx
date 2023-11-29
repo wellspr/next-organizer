@@ -10,7 +10,7 @@ import {
 
 import { store } from "@/store";
 import { api } from "@/db";
-import { Item, List, Lists, listUpdates } from "@/types";
+import { Item, List, Lists, itemUpdates, listUpdates } from "@/types";
 
 interface ContextProps {
     lists: Lists | undefined,
@@ -24,6 +24,7 @@ interface ContextProps {
         listKey: string,
         data: { name: string, quantity: string, price: string }
     ) => void,
+    updateItem: (listKey: string, itemKEy: string, itemUpdates: itemUpdates) => void,
     removeItem: (listKey: string, itemKey: string) => void,
     synchronizeLists: () => void,
     synchronized: boolean;
@@ -39,6 +40,7 @@ const defaultValue: ContextProps = {
     deleteList: () => { },
     deleteListPermanently: () => { },
     addItem: () => { },
+    updateItem: () => { },
     removeItem: () => { },
     synchronizeLists: () => { },
     synchronized: false,
@@ -227,6 +229,12 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
             addKeyToUnsavedItems(listKey);
         }
 
+    }, [lists, addKeyToUnsavedItems]);
+
+    const updateItem = useCallback((listKey: string, itemKEy: string, itemUpdates: itemUpdates) => {
+        if (lists) {
+
+        }
     }, [lists]);
 
     const removeItem = useCallback((listKey: string, itemKey: string) => {
@@ -248,7 +256,7 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
 
             addKeyToUnsavedItems(listKey);
         }
-    }, [lists]);
+    }, [lists, addKeyToUnsavedItems]);
 
     const synchronizeLists = useCallback(async () => {
         const synchronize = async () => {
@@ -284,6 +292,7 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
         deleteList,
         deleteListPermanently,
         addItem,
+        updateItem,
         removeItem,
         synchronizeLists,
         synchronized: !unsavedItems || unsavedItems.length === 0,
