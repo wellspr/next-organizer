@@ -6,31 +6,38 @@ import { Lists } from "@/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const ListsComponent = () => {
+const ListDeleted = () => {
 
-    const { lists, deleteList } = useShopping();
-    const [current, setCurrent] = useState<Lists>();
+    const { lists, deleteListPermanently } = useShopping();
+    const [deleted, setDeleted] = useState<Lists>();
     const router = useRouter();
 
     useEffect(() => {
         if (lists) {
-            setCurrent(lists.filter(list => (list.deleted === false)));
+            setDeleted(lists.filter(list => (list.deleted === true)));
         }
     }, [lists]);
 
-    if (!current) {
-        return <div className="shopping__lists">
-            <div className="shopping__lists__empty">
-                <Loading />
+    if (!deleted) {
+        return (
+            <div className="shopping_lists">
+                <div className="shopping__lists__empty">
+                    <Loading />
+                </div>
             </div>
-        </div>
+        );
     }
 
-    if (current && current.length === 0) {
+    if (deleted && deleted.length === 0) {
         return (
             <div className="shopping__lists">
+                <Button
+                    className="button"
+                    onClick={() => router.back()}
+                    label="Back"
+                />
                 <div className="shopping__lists__no-items">
-                    <p>{"There aren't shopping lists yet!"}</p>
+                    <p>{"There are no deleted list!"}</p>
                 </div>
             </div>
         );
@@ -38,15 +45,20 @@ const ListsComponent = () => {
 
     return (
         <>
+            <Button
+                className="button"
+                onClick={() => router.back()}
+                label="Back"
+            />
             <ul className="shopping__lists">
                 {
-                    current.map(list => {
+                    deleted.map(list => {
                         return (
                             <li key={list.key} className="shopping__lists__item">
                                 <div
                                     className="shopping__lists__item__name"
                                     onClick={() => {
-                                        router.push(`/shopping/list/${list.key}`);
+                                        //router.push(`/shopping/list/${list.key}`);
                                     }}
                                 >
                                     {list.name}
@@ -58,7 +70,7 @@ const ListsComponent = () => {
                                     <Button
                                         className="button button__delete-list"
                                         label="Delete"
-                                        onClick={() => deleteList(list.key)}
+                                        onClick={() => deleteListPermanently(list.key)}
                                     />
                                 </div>
                             </li>
@@ -66,14 +78,8 @@ const ListsComponent = () => {
                     })
                 }
             </ul>
-            <Button
-                className="button"
-                type="button"
-                onClick={() => router.push("/shopping/deleted")}
-                label={`Deleted Lists (${lists?.filter(list => list.deleted === true).length})`}
-            />
         </>
     );
 };
 
-export default ListsComponent;
+export default ListDeleted;

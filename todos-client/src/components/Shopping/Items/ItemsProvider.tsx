@@ -13,9 +13,11 @@ const ItemsProvider = (props: { children: React.ReactNode }) => {
     const ref = useRef<HTMLInputElement>(null);
     const value: ContextProps = { ref };
 
-    return <Context.Provider value={value}>
-        {props.children}
-    </Context.Provider>
+    return (
+        <Context.Provider value={value}>
+            {props.children}
+        </Context.Provider>
+    );
 };
 
 export default ItemsProvider;

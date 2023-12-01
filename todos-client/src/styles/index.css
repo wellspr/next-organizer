@@ -492,26 +492,106 @@ body {
 }
 .shopping__list__items__item {
   display: flex;
+  align-items: center;
   font-size: 1.4rem;
   padding: 0.8rem;
   background-color: lightsteelblue;
   color: darkslateblue;
   font-weight: bold;
+  font-family: sans-serif;
 }
-.shopping__list__items__item__name {
-  min-width: 60%;
+.shopping__list__items__item__values {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  height: 3rem;
 }
-.shopping__list__items__item__quantity {
-  width: 20%;
+.shopping__list__items__item__values--hidden {
+  display: none;
 }
-.shopping__list__items__item__price {
-  width: 20%;
+.shopping__list__items__item__values__name {
+  flex-grow: 1;
+}
+.shopping__list__items__item__values__quantity {
+  width: 15%;
+  padding-left: 1rem;
+}
+.shopping__list__items__item__values__price {
+  width: 15%;
+  text-align: center;
+}
+.shopping__list__items__item__inputForm {
+  display: none;
+}
+.shopping__list__items__item__inputForm--show {
+  display: flex;
+  flex-grow: 1;
+  height: 3rem;
+}
+.shopping__list__items__item__form {
+  display: flex;
+}
+.shopping__list__items__item__form__item-name {
+  display: flex;
+  flex-grow: 1;
+}
+.shopping__list__items__item__form__item-quantity {
+  display: flex;
+  width: 15%;
+  position: relative;
+}
+.shopping__list__items__item__form__item-price {
+  display: flex;
+  width: 15%;
+  text-align: center;
+}
+.shopping__list__items__item__form__input {
+  border: none;
+  border-radius: 0.2rem;
+  width: 100%;
+  background-color: transparent;
+  color: darkslateblue;
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 1.4rem;
+}
+.shopping__list__items__item__form__input__quantity-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+}
+.shopping__list__items__item__form__input__quantity-controls__button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.4rem;
+}
+.shopping__list__items__item__form__input--item-name {
+  text-align: start;
+}
+.shopping__list__items__item__form__input--item-quantity {
+  padding-left: 1rem;
+}
+.shopping__list__items__item__form__input--item-price {
+  text-align: center;
 }
 .shopping__list__items__item__buttons .button {
   cursor: pointer;
+  width: 5rem;
+}
+.shopping__list__items__item__buttons .button__save {
+  display: none;
+}
+.shopping__list__items__item__buttons .button__save--show {
+  display: block;
+  color: darkgreen;
 }
 .shopping__list__items__item__buttons .button__delete {
   color: crimson;
+}
+.shopping__list__items__item__buttons .button__delete--hidden {
+  display: none;
 }
 .shopping__list__total {
   font-weight: bold;

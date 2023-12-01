@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useEffect, useRef } from "react";
 
 interface EditableProps {
@@ -16,26 +18,26 @@ const Editable = (props: EditableProps) => {
 
     const onClickListName = useCallback(() => {
         props.setShowUpdateInput(true);
-    }, []);
+    }, [props]);
 
     const onInputKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.code === "Escape") {
             event.preventDefault();
             props.setShowUpdateInput(false);
         }
-    }, []);
+    }, [props]);
 
     const onSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         props.onUpdateSubmit();
         props.setShowUpdateInput(false);
-    }, [props.onUpdateSubmit]);
+    }, [props]);
 
     useEffect(() => {
         if (updateInputRef && updateInputRef.current) {
             updateInputRef.current.focus();
         }
-    }, [updateInputRef, updateInputRef.current]);
+    }, [updateInputRef]);
 
     const onClick = useCallback((event: MouseEvent) => {    
         if (props.showUpdateInput) {
@@ -46,7 +48,7 @@ const Editable = (props: EditableProps) => {
             }
             props.setShowUpdateInput(false);
         }
-    }, [props.showUpdateInput]);
+    }, [props]);
 
     useEffect(() => {
         document.addEventListener("click", onClick);

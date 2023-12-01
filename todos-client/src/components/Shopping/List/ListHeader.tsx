@@ -14,7 +14,6 @@ const ListHeader = () => {
     const params = useParams();
     const { lists, updateList } = useShopping();
     const [listName, setListName] = useState<string>("");
-    //const updateInputRef = useRef<HTMLInputElement>(null);
     const [updatedListName, setUpdatedListName] = useState<string>("");
 
     const [showUpdateInput, setShowUpdateInput] = useState<boolean>(false);

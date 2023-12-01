@@ -24,7 +24,7 @@ interface ContextProps {
         listKey: string,
         data: { name: string, quantity: string, price: string }
     ) => void,
-    updateItem: (listKey: string, itemKEy: string, itemUpdates: itemUpdates) => void,
+    updateItem: (listKey: string, itemKey: string, itemUpdates: itemUpdates) => void,
     removeItem: (listKey: string, itemKey: string) => void,
     synchronizeLists: () => void,
     synchronized: boolean;
@@ -231,14 +231,29 @@ const ShoppingProvider = (props: { children: React.ReactNode }) => {
 
     }, [lists, addKeyToUnsavedItems]);
 
-    const updateItem = useCallback((listKey: string, itemKEy: string, itemUpdates: itemUpdates) => {
+    const updateItem = useCallback((listKey: string, itemKey: string, itemUpdates: itemUpdates) => {
         if (lists) {
+            const updatedLists = lists.map(list => {
+                if (list.key === listKey) {
+                    const listItems = list.items.map(item => {
+                        if (item.key === itemKey) {
+                            return { ...item, ...itemUpdates };
+                        }
+                        return item;
+                    });
+                    return { ...list, items: listItems };
+                }
 
+                return list;
+            });
+
+            setLists(updatedLists);
+
+            addKeyToUnsavedItems(listKey);
         }
-    }, [lists]);
+    }, [lists, addKeyToUnsavedItems]);
 
     const removeItem = useCallback((listKey: string, itemKey: string) => {
-        console.log(listKey, itemKey);
         if (lists) {
             setLists(lists.map(list => {
                 if (list.key === listKey) {

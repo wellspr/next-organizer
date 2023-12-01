@@ -1,6 +1,6 @@
 "use client";
 
-import { KeyboardEvent, useCallback, useRef } from "react";
+import { KeyboardEvent, useCallback, useEffect, useRef } from "react";
 
 const ItemQuantityInput = (props: {
     itemQuantity: string,
@@ -13,14 +13,30 @@ const ItemQuantityInput = (props: {
     const { itemQuantity, setItemQuantity } = props;
 
     const addQuantity = useCallback(() => {
-        setItemQuantity(String(Number(itemQuantity) + 1));
+        console.log("Add", itemQuantity);
+        setItemQuantity(String(parseInt(itemQuantity) + 1));
     }, [itemQuantity, setItemQuantity]);
 
     const subtractQuantity = useCallback(() => {
-        if (Number(itemQuantity) > 0) {
-            setItemQuantity(String(Number(itemQuantity) - 1));
+        console.log("Subtract", itemQuantity);
+        if (parseInt(itemQuantity) > 0) {
+            setItemQuantity(String(parseInt(itemQuantity) - 1));
         }
     }, [itemQuantity, setItemQuantity]);
+
+    const onClick = useCallback((op: string) => {
+        switch (op) {
+            case "add":
+                addQuantity();
+                return;
+            case "subtract":
+                subtractQuantity();
+                return;
+            default:
+                console.log("Unknown function")
+                return;
+        }
+    }, [addQuantity, subtractQuantity]);
 
     const onQuantityKeyDown = useCallback((e: KeyboardEvent) => {
         switch (e.code) {
@@ -64,9 +80,9 @@ const ItemQuantityInput = (props: {
                         `
                     }
                     type="button"
-                    onClick={addQuantity}
+                    onClick={() => onClick("add")}
                 >
-                    +
+                    <span>+</span>
                 </button>
                 <button
                     className={
@@ -77,9 +93,9 @@ const ItemQuantityInput = (props: {
                         `
                     }
                     type="button"
-                    onClick={subtractQuantity}
+                    onClick={() => onClick("subtract")}
                 >
-                    -
+                    <span>-</span>
                 </button>
             </div>
         </>

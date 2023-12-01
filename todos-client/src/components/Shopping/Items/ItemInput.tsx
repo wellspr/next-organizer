@@ -17,7 +17,11 @@ const ItemInput = (props: { listKey: string }) => {
 
     const onSubmit = useCallback(() => {
         if (itemName && itemQuantity && itemPrice) {
-            addItem(props.listKey, { name: itemName, quantity: itemQuantity, price: itemPrice });
+            addItem(props.listKey, {
+                name: itemName,
+                quantity: itemQuantity,
+                price: itemPrice
+            });
             setItemName("");
             setItemQuantity("0");
             setItemPrice("0");

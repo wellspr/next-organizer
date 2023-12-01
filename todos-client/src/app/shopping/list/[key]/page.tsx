@@ -1,5 +1,9 @@
-import { ListComponent, ListHeader, ListInput } from "@/components/Shopping/List";
-import ListTotalValue from "@/components/Shopping/List/ListTotalValue";
+import { 
+    ListComponent, 
+    ListHeader, 
+    ListInput,
+    TotalValue,
+} from "@/components/Shopping/List";
 
 const Page = () => {
     return (
@@ -7,7 +11,7 @@ const Page = () => {
             <ListHeader />
             <ListInput />
             <ListComponent />
-            <ListTotalValue />
+            <TotalValue />
         </div>
     );
 }
