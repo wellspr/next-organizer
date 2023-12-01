@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-    title: 'Next Organzer App',
+    title: 'Next Organizer App',
     description: 'An Organizer App Powered by Next JS',
 };
 

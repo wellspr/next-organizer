@@ -1,13 +1,23 @@
-import TodosProvider, { useTodos } from "./TodosProvider";
 import ActiveSectionProvider, { useActiveSection } from "./ActiveSectionProvider";
 import NotesProvider, { useNotes } from "./NotesProvider";
+import TodosProvider, { useTodos } from "./TodosProvider";
+import ShoppingProvider, { useShopping } from "./ShoppingProvider";
+
 import type { Todo, Todos } from "@/types";
 
 const Provider = {
-    Todos: TodosProvider,
+    ActiveSection: ActiveSectionProvider,
     Notes: NotesProvider,
-    ActiveSection: ActiveSectionProvider
+    Todos: TodosProvider,
+    Shopping: ShoppingProvider,
 }
 
-export { Provider, useActiveSection, useTodos, useNotes };
+export { 
+    Provider, 
+    useActiveSection, 
+    useNotes, 
+    useTodos, 
+    useShopping,
+};
+
 export type {Todo, Todos};

@@ -1,10 +1,11 @@
 const port = process.env.PORT || 4000;
 import express from "express";
-import { todosDB, notesDB } from "./db/index.js";
+import { todosDB, notesDB, shoppingListDB } from "./db/index.js";
 
 const app = express();
 app.use(express.json());
 
+/* Todos */
 app.get("/todos/fetch", async (req, res) => {
     const response = await todosDB().fetch();
     res.json(response);
@@ -23,6 +24,7 @@ app.delete("/todos/delete", async (req, res) => {
     res.json({ key });
 });
 
+/* Notes */
 app.get("/notes/fetch", async (req, res) => {
     const response = await notesDB().fetch();
     res.json(response);
@@ -38,6 +40,25 @@ app.post("/notes/save", async (req, res) => {
 app.delete("/notes/delete", async (req, res) => {
     const { key } = req.body;
     await notesDB().delete(key);
+    res.json({ key });
+});
+
+/* Shopping */
+app.get("/shopping/fetch", async (req, res) => {
+    const response = await shoppingListDB().fetch();
+    res.json(response);
+});
+
+app.post("/shopping/save", async (req, res) => {
+    const { data } = req.body;
+    const { lists } = data;
+    const response = await shoppingListDB().save(lists);
+    res.json(response);
+});
+
+app.delete("/shopping/delete", async (req, res) => {
+    const { key } = req.body;
+    await shoppingListDB().delete(key);
     res.json({ key });
 });
 

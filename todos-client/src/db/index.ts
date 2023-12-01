@@ -3,7 +3,7 @@ import {
     PutManyResponse,
 } from "deta/dist/types/types/base/response";
 
-import { Notes, Todos } from "@/types";
+import { Lists, Notes, Todos } from "@/types";
 
 import axios, { AxiosResponse } from "axios";
 
@@ -13,6 +13,10 @@ const todosDB = axios.create({
 
 const notesDB = axios.create({
     baseURL: "/api/notes",
+});
+
+const shoppingListDB = axios.create({
+    baseURL: "/api/shopping",
 });
 
 export const api = {
@@ -54,4 +58,23 @@ export const api = {
             return { key: response.data.key as string };
         },
     },
+
+    shopping: {
+        fetchData: async () => {
+            const response: AxiosResponse = await shoppingListDB.get("/fetch");
+            const data: FetchResponse = response.data;
+            return data.items as Lists;
+        },
+
+        postData: async (lists: Lists) => {
+            const response = await shoppingListDB.post("/save", { data: { lists } });
+            const data: PutManyResponse = response.data;
+            return data.processed.items as Lists;
+        },
+
+        deleteData: async (key: string) => {
+            const response = await shoppingListDB.delete("/delete", { data: { key } });
+            return { key: response.data.key as string };
+        },
+    }
 };

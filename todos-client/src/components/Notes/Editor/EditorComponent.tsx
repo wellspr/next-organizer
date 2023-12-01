@@ -77,12 +77,12 @@ const EditorComponent = () => {
                 }}
             >
                 <div className="editor__title-input">
-                    <div className="form__group form__group--notes">
+                    <div className="form__group form__group__notes">
                         <label htmlFor="todo-input" className="form__group__label "></label>
                         <input
                             id="notes-input"
                             type="text"
-                            className="form__group__input form__group__input--notes"
+                            className="form__group__input form__group__input__notes"
                             placeholder="Add a title..."
                             value={title}
                             onChange={e => setTitle(e.target.value)}
@@ -90,7 +90,7 @@ const EditorComponent = () => {
                     </div>
                 </div>
 
-                <Editor height={200}>
+                <Editor height={window.innerHeight - 200}>
                     <EditorToolbar />
                 </Editor>
                 <div className="editor__buttons">

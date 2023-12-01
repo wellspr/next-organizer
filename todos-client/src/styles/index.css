@@ -83,6 +83,7 @@ body {
   flex-direction: column;
   gap: 1rem;
   padding: 1rem 0;
+  min-height: 4.5rem;
 }
 .header__top {
   display: flex;
@@ -259,6 +260,347 @@ body {
   margin-right: 0.4rem;
 }
 
+.shopping {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.shopping__form {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.shopping__form__group {
+  display: flex;
+  flex-direction: row;
+  border: 0.2rem solid;
+  border-radius: 0.4rem;
+  height: 4rem;
+}
+.shopping__form__group__item {
+  border-color: blueviolet;
+  max-width: fit-content;
+}
+.shopping__form__group__item__name {
+  min-width: 60%;
+}
+.shopping__form__group__item__quantity {
+  width: 20%;
+}
+.shopping__form__group__item__price {
+  width: 20%;
+}
+.shopping__form__group__list__name {
+  width: 100%;
+}
+.shopping__form__group__input {
+  flex-grow: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.2rem;
+}
+.shopping__form__group__input__quantity-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+}
+.shopping__form__group__input__quantity-controls__button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.6rem;
+}
+.shopping__form__group__input--item-name {
+  width: 100%;
+}
+.shopping__form__group__input--item-quantity {
+  width: 100%;
+}
+.shopping__form__group__input--item-price {
+  width: 100%;
+}
+.shopping__form__group__input--list-name {
+  width: 100%;
+}
+.shopping__form__group__button {
+  cursor: pointer;
+  padding: 1rem;
+  height: 4rem;
+  background-color: lightsteelblue;
+  border: none;
+  border-radius: 0.4rem;
+  margin-left: 0.2rem;
+  color: blueviolet;
+}
+.shopping__form__group__button:disabled {
+  background-color: rgba(176, 196, 222, 0.75);
+}
+.shopping__form__group__button:hover {
+  background-color: rgba(176, 196, 222, 0.75);
+}
+.shopping__lists__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: darkblue;
+}
+.shopping__lists__empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  padding: 1.8rem 0;
+  color: darkblue;
+}
+.shopping__lists__item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem;
+  margin: 0.3rem;
+  font-size: 1.4rem;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(176, 196, 222, 0.75);
+}
+.shopping__lists__item:hover {
+  background-color: rgba(176, 196, 222, 0.45);
+}
+.shopping__lists__item--deleted {
+  background-color: crimson;
+  color: antiquewhite;
+}
+.shopping__lists__item--deleted:hover {
+  background-color: rgba(220, 20, 60, 0.75);
+}
+.shopping__lists__item__value {
+  display: none;
+}
+.shopping__lists__item__value--show {
+  flex-grow: 1;
+  display: flex;
+}
+.shopping__lists__item__input {
+  display: none;
+}
+.shopping__lists__item__input--show {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+}
+.shopping__lists__item__input--show input {
+  font-size: 1.4rem;
+  font-family: sans-serif;
+  border: none;
+  flex-grow: 1;
+}
+.shopping__lists__item__name {
+  flex-grow: 1;
+  cursor: pointer;
+}
+.shopping__lists__item__date {
+  margin-left: 1.5rem;
+  font-size: 1.2rem;
+}
+.shopping__lists__item__buttons .button {
+  cursor: pointer;
+  margin-right: 0.8rem;
+}
+.shopping__lists__item__buttons .button__update-list {
+  margin-left: 1rem;
+}
+.shopping__lists__item__buttons .button__delete-list {
+  margin-right: 0;
+}
+.shopping__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* This is the spacing between list items and the total */
+}
+.shopping__list__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: darkblue;
+}
+.shopping__list__empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  padding: 1.8rem 0;
+  color: darkblue;
+}
+.shopping__list__header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.shopping__list__header__button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: blueviolet;
+}
+.shopping__list__header__button__icon {
+  width: 3rem;
+  height: 3rem;
+}
+.shopping__list__header__button__sync {
+  cursor: pointer;
+  color: blueviolet;
+}
+.shopping__list__header__button__sync--synced:disabled {
+  cursor: default;
+  color: green;
+}
+.shopping__list__header__list-name {
+  flex-grow: 1;
+  font-size: 1.6rem;
+  color: blueviolet;
+  font-family: sans-serif;
+}
+.shopping__list__header__list-name__value {
+  border-top: 2px transparent solid;
+  border-bottom: 2px transparent solid;
+}
+.shopping__list__header__list-name__value--hidden {
+  display: none;
+}
+.shopping__list__header__list-name__updateInput {
+  display: none;
+}
+.shopping__list__header__list-name__updateInput--show {
+  display: flex;
+  font-size: 1.6rem;
+  color: blueviolet;
+  font-family: sans-serif;
+  width: 100%;
+  border: none;
+  border-top: 2px transparent solid;
+  border-bottom: 2px blueviolet solid;
+  outline: none;
+}
+.shopping__list__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.shopping__list__items__item {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  padding: 0.8rem;
+  background-color: lightsteelblue;
+  color: darkslateblue;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+.shopping__list__items__item__values {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  height: 3rem;
+}
+.shopping__list__items__item__values--hidden {
+  display: none;
+}
+.shopping__list__items__item__values__name {
+  flex-grow: 1;
+}
+.shopping__list__items__item__values__quantity {
+  width: 15%;
+  padding-left: 1rem;
+}
+.shopping__list__items__item__values__price {
+  width: 15%;
+  text-align: center;
+}
+.shopping__list__items__item__inputForm {
+  display: none;
+}
+.shopping__list__items__item__inputForm--show {
+  display: flex;
+  flex-grow: 1;
+  height: 3rem;
+}
+.shopping__list__items__item__form {
+  display: flex;
+}
+.shopping__list__items__item__form__item-name {
+  display: flex;
+  flex-grow: 1;
+}
+.shopping__list__items__item__form__item-quantity {
+  display: flex;
+  width: 15%;
+  position: relative;
+}
+.shopping__list__items__item__form__item-price {
+  display: flex;
+  width: 15%;
+  text-align: center;
+}
+.shopping__list__items__item__form__input {
+  border: none;
+  border-radius: 0.2rem;
+  width: 100%;
+  background-color: transparent;
+  color: darkslateblue;
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 1.4rem;
+}
+.shopping__list__items__item__form__input__quantity-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+}
+.shopping__list__items__item__form__input__quantity-controls__button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.4rem;
+}
+.shopping__list__items__item__form__input--item-name {
+  text-align: start;
+}
+.shopping__list__items__item__form__input--item-quantity {
+  padding-left: 1rem;
+}
+.shopping__list__items__item__form__input--item-price {
+  text-align: center;
+}
+.shopping__list__items__item__buttons .button {
+  cursor: pointer;
+  width: 5rem;
+}
+.shopping__list__items__item__buttons .button__save {
+  display: none;
+}
+.shopping__list__items__item__buttons .button__save--show {
+  display: block;
+  color: darkgreen;
+}
+.shopping__list__items__item__buttons .button__delete {
+  color: crimson;
+}
+.shopping__list__items__item__buttons .button__delete--hidden {
+  display: none;
+}
+.shopping__list__total {
+  font-weight: bold;
+  color: darkslateblue;
+  font-size: 1.4rem;
+  display: flex;
+  gap: 1rem;
+}
+
 .form {
   flex-grow: 1;
 }
@@ -267,10 +609,10 @@ body {
   border: 0.2rem solid;
   border-radius: 0.4rem;
 }
-.form__group--notes {
+.form__group__notes {
   border-color: burlywood;
 }
-.form__group--todos {
+.form__group__todos {
   border-color: lightsteelblue;
 }
 .form__group__input {
@@ -279,15 +621,15 @@ body {
   border: none;
   border-radius: 0.2rem;
 }
-.form__group__input--notes:focus {
+.form__group__input__notes:focus {
   outline: none;
   outline: 0.2rem peru solid;
 }
-.form__group__input--todos {
+.form__group__input__todos {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.form__group__input--todos:focus {
+.form__group__input__todos:focus {
   outline: none;
   outline: 0.2rem darkblue solid;
 }
@@ -388,6 +730,7 @@ body {
 .footer {
   text-align: center;
   padding: 0.4rem 0;
+  min-height: 2rem;
 }
 
 /*# sourceMappingURL=index.css.map */

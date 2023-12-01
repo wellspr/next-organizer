@@ -48,6 +48,16 @@ const Menu = (props: {
                 >
                     Notes
                 </Link>
+                <Link
+                    className={
+                        path.split("/")[1] === "shopping" ? 
+                        "menu__nav menu__nav--active" : 
+                        "menu__nav"
+                    }
+                    href={"/shopping"}
+                >
+                    Shopping
+                </Link>
             </nav>
         </div>
     );

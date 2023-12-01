@@ -1,6 +1,13 @@
 import * as Base from "./Base";
 import * as Common from "./Common"
-import * as Todos from "./Todos";
 import * as Notes from "./Notes";
+import * as Shopping from "./Shopping";
+import * as Todos from "./Todos";
 
-export { Base, Common, Todos, Notes };
+export { 
+    Base, 
+    Common, 
+    Notes, 
+    Shopping,
+    Todos, 
+};
